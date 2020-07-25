@@ -20,10 +20,6 @@ public class World {
 	private Handler handler;
 	
 	private int numberOfLadders;
-	public int getNumberOfLadders() {
-		return numberOfLadders;
-	}
-
 	private int wallHeight; // Hoogte van de muur in aantal sporten
 	
 	public static final int LADDER_WIDTH = 100; // Breedte in pixels van een kolom
@@ -78,7 +74,7 @@ public class World {
 		}
 		monsterTimes.add(Integer.MAX_VALUE); // +oneindig als laatste wachttijd om een lege rij te voorkomen
 		
-		player = new Player(0, 0, this);
+		player = new Player(numberOfLadders/2, 0, this);
 		
 		// Bestand afsluiten
 		in.close();
@@ -89,7 +85,7 @@ public class World {
 		while (monsterTimer >= monsterTimes.peek()) {
 			monsterTimer = 0;
 			monsterTimes.poll();
-			nonPlayers.add(new Monster(monsterLocations.poll(), wallHeight + 2, this, 1));
+			nonPlayers.add(new Monster(monsterLocations.poll(), getWallHeight() + 2, this, 1));
 		}
 		
 		player.tick();
@@ -115,13 +111,13 @@ public class World {
 	
 	public void render(Graphics g) {
 		g.setColor(Color.YELLOW);
-		g.fillRect(0, Game.HEIGHT - STEP_HEIGHT * wallHeight, Game.WIDTH, STEP_HEIGHT * wallHeight);
+		g.fillRect(0, Game.HEIGHT - STEP_HEIGHT * getWallHeight(), Game.WIDTH, STEP_HEIGHT * getWallHeight());
 		
 		g.setColor(Color.BLACK);
 		for (int i = 0; i < numberOfLadders; i++) {
-			g.fillRect((Game.WIDTH - LADDER_WIDTH * numberOfLadders)/2 + i * LADDER_WIDTH + 20, Game.HEIGHT - STEP_HEIGHT * wallHeight, 5, STEP_HEIGHT * wallHeight);
-			g.fillRect(150 + i * LADDER_WIDTH + 75, Game.HEIGHT - STEP_HEIGHT * wallHeight, 5, STEP_HEIGHT * wallHeight);
-			for (int j = 1; j < wallHeight; j++) {
+			g.fillRect((Game.WIDTH - LADDER_WIDTH * numberOfLadders)/2 + i * LADDER_WIDTH + 20, Game.HEIGHT - STEP_HEIGHT * getWallHeight(), 5, STEP_HEIGHT * getWallHeight());
+			g.fillRect(150 + i * LADDER_WIDTH + 75, Game.HEIGHT - STEP_HEIGHT * getWallHeight(), 5, STEP_HEIGHT * getWallHeight());
+			for (int j = 1; j < getWallHeight(); j++) {
 				g.fillRect(150 + i * LADDER_WIDTH + 20, Game.HEIGHT - j * STEP_HEIGHT, 60, 5);
 			}
 		}
@@ -135,7 +131,7 @@ public class World {
 	
 	public void keyPressed(int key) {
 		if (key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9 && key - 48 < numberOfLadders) {
-			nonPlayersToAdd.add(new Monster(key - 48, wallHeight + 2, this, 1));
+			nonPlayersToAdd.add(new Monster(key - 48, getWallHeight() + 2, this, 1));
 		}
 		else {
 			player.keyPressed(key);
@@ -144,6 +140,18 @@ public class World {
 	
 	public void keyReleased(int key) {
 		player.keyReleased(key);
+	}
+
+	public int getWallHeight() {
+		return wallHeight;
+	}
+	
+	public int getNumberOfLadders() {
+		return numberOfLadders;
+	}
+	
+	public void addScore(int dScore) {
+		handler.addScore(dScore);
 	}
 
 }

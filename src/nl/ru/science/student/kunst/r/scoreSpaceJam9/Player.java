@@ -22,7 +22,6 @@ public class Player extends Entity {
 		Sprite[] sprites = {new Sprite("player"), new Sprite("player_kick1")};
 		this.sprites = sprites;
 		sprite = sprites[0];
-		
 		vx = 0;
 		vy = 0;
 		kicking = false;
@@ -30,10 +29,10 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
-		if (pixelY <= 31) {
+		if (pixelY + height <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
 			pixelX += vx;
 		}
-		if (pixelY <= 31 && pixelY + vy >= 31) {
+		if (pixelY + height <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight() && pixelY + height + vy > Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
 			for (int i = 0; i < world.getNumberOfLadders(); i++) {
 				if (i*World.LADDER_WIDTH + 0.2*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 <= pixelX && i*World.LADDER_WIDTH + 0.8*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 >= pixelX) {
 					pixelX = i*World.LADDER_WIDTH + (World.LADDER_WIDTH - 44)/2 + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2;
@@ -68,6 +67,7 @@ public class Player extends Entity {
 			kicking = true;
 			height = 90;
 			sprite = sprites[1];
+			kickTimer = 20;
 			break;
 		}
 	}

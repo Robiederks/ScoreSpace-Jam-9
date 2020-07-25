@@ -76,11 +76,10 @@ public class Game extends Canvas implements Runnable {
 		
 		// Hier gebeurt het
 		// Achtergrond
-		g.setColor(Color.BLUE);
+		g.setColor(new Color(0x8855FF));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		handler.render(g);
-		
 		
 		// Graphics netjes afsluiten
 		g.dispose();

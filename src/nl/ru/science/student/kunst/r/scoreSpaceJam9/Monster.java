@@ -11,7 +11,6 @@ public class Monster extends Entity {
 		speed = 1;
 		sprite = new Sprite("monster");
 		lives = startLives;
-		pixelX += (World.LADDER_WIDTH - 44)/2;
 		t = 0;
 	}
 
@@ -31,5 +30,8 @@ public class Monster extends Entity {
 	
 	public void damage() {
 		lives -= 1;
+		if (lives == 0) {
+			world.addScore(1);
+		}
 	}
 }

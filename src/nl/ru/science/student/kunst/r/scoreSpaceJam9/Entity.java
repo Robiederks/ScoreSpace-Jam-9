@@ -28,8 +28,8 @@ public abstract class Entity {
 		this.width = width;
 		this.height = height;
 		this.world = world;
-		pixelX = 150 + x * World.LADDER_WIDTH;
-		pixelY = 100 + y * World.STEP_HEIGHT;
+		pixelX = (Game.WIDTH - World.LADDER_WIDTH * world.getNumberOfLadders())/2 + x * World.LADDER_WIDTH + (World.LADDER_WIDTH - width)/2;
+		pixelY = Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight() + y * World.STEP_HEIGHT - height;
 	}
 	
 	public Rectangle getBounds() {

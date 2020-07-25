@@ -7,10 +7,14 @@ public class Handler {
 	private Game game;
 	
 	private World world;
+	private HUD hud;
+	
+	private int score;
 	
 	public Handler(Game game) {
 		this.game = game;
 		world = new World("level", this);
+		hud = new HUD(this);
 	}
 	
 	public void tick() {
@@ -19,6 +23,7 @@ public class Handler {
 	
 	public void render(Graphics g) {
 		world.render(g);
+		hud.render(g);
 	}
 	
 	public void keyPressed(int key) {
@@ -27,6 +32,14 @@ public class Handler {
 	
 	public void keyReleased(int key) {
 		world.keyReleased(key);
+	}
+	
+	public void addScore(int dScore) {
+		score += dScore;
+	}
+
+	public int getScore() {
+		return score;
 	}
 
 }
