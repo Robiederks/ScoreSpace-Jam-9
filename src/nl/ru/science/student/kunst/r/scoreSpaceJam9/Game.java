@@ -11,9 +11,17 @@ public class Game extends Canvas implements Runnable {
 	
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
-
+	
+	private Handler handler;
+	
 	public Game() {
+		handler = new Handler(this);
+		
+		addKeyListener(new KeyInput(handler));
+		
 		new Window(WIDTH , HEIGHT, "Climbing the social ladder",this);
+		
+		requestFocus();
 	}
 
 	/**
@@ -67,8 +75,12 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		
 		// Hier gebeurt het
-		g.setColor(Color.BLACK);
+		// Achtergrond
+		g.setColor(Color.BLUE);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
+		
+		handler.render(g);
+		
 		
 		// Graphics netjes afsluiten
 		g.dispose();
@@ -76,7 +88,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void tick() {
-		
+		handler.tick();
 	}
 	
 	
