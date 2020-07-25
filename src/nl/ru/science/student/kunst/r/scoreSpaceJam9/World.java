@@ -94,6 +94,14 @@ public class World {
 			entity.tick();
 		}
 		
+		for (Entity entity : nonPlayers) {
+			if (entity.getBounds().intersects(player.getBounds())) {
+				if (player.isKicking()) {
+					// TODO Monster geraakt
+				}
+			}
+		}
+		
 		nonPlayers.removeAll(nonPlayersToRemove);
 		nonPlayersToRemove.clear();
 		nonPlayers.addAll(nonPlayersToAdd);

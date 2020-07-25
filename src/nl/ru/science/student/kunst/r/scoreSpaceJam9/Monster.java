@@ -5,7 +5,7 @@ public class Monster extends Entity {
 	int speed;
 	
 	public Monster(int x, int y, World world) {
-		super(x, y, 60, 80, world);
+		super(x, y, 44, 69, world);
 		speed = 1;
 		sprite = new Sprite("monster");
 	}
