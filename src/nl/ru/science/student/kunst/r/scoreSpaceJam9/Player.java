@@ -30,7 +30,9 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
-		pixelX += vx;
+		if (pixelY <= 31) {
+			pixelX += vx;
+		}
 		pixelY += vy;
 	}
 	
