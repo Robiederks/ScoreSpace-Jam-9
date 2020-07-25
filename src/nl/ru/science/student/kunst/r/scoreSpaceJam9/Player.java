@@ -30,7 +30,9 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
-		pixelX += vx;
+		if (pixelY <= 31) {
+			pixelX += vx;
+		}
 		pixelY += vy;
 	}
 	
@@ -63,7 +65,7 @@ public class Player extends Entity {
 	public void keyReleased(int key) {
 		switch (key) {
 		case KeyEvent.VK_W:
-		case KeyEvent.VK_UP:
+		case KeyEvent.VK_UP: 
 			vy = 0;
 			break;
 		case KeyEvent.VK_A:
