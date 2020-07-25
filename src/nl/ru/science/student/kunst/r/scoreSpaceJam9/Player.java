@@ -64,19 +64,27 @@ public class Player extends Entity {
 		switch (key) {
 		case KeyEvent.VK_W:
 		case KeyEvent.VK_UP:
-			vy = 0;
+			if (vy == -5) {
+				vy = 0;
+			}
 			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:
-			vx = 0;
+			if (vx == -5) {
+				vx = 0;
+			}
 			break;
 		case KeyEvent.VK_S:
 		case KeyEvent.VK_DOWN:
-			vy = 0;
+			if (vy == 5) {
+				vy = 0;
+			}
 			break;
 		case KeyEvent.VK_D:
 		case KeyEvent.VK_RIGHT:
-			vx = 0;
+			if (vx == 5) {
+				vx = 0;
+			}
 			break;
 		case KeyEvent.VK_SPACE:
 			kicking = false;

@@ -6,12 +6,12 @@ public class Monster extends Entity {
 	private int t;
 	private int lives;
 	
-	
-	public Monster(int x, int y, World world, int start_lives) {
+	public Monster(int x, int y, World world, int startLives) {
 		super(x, y, 44, 69, world);
 		speed = 1;
 		sprite = new Sprite("monster");
-		lives = start_lives;
+		lives = startLives;
+		pixelX += (World.LADDER_WIDTH - 44)/2;
 		t = 0;
 	}
 

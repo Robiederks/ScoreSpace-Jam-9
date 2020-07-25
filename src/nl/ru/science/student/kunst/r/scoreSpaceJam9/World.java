@@ -23,7 +23,7 @@ public class World {
 	private int wallHeight; // Hoogte van de muur in aantal sporten
 	
 	public static final int LADDER_WIDTH = 100; // Breedte in pixels van een kolom
-	public static final int STEP_HEIGHT = 50; // Hoogte in pixels tussen sporten
+	public static final int STEP_HEIGHT = 35; // Hoogte in pixels tussen sporten
 	
 	private Player player;
 	private ArrayList<Entity> nonPlayers;
@@ -111,14 +111,14 @@ public class World {
 	
 	public void render(Graphics g) {
 		g.setColor(Color.YELLOW);
-		g.fillRect(150, 100, LADDER_WIDTH * numberOfLadders, STEP_HEIGHT * wallHeight);
+		g.fillRect(0, Game.HEIGHT - STEP_HEIGHT * wallHeight, Game.WIDTH, STEP_HEIGHT * wallHeight);
 		
 		g.setColor(Color.BLACK);
 		for (int i = 0; i < numberOfLadders; i++) {
-			g.fillRect(150 + i * LADDER_WIDTH + 10, 100, 10, STEP_HEIGHT * wallHeight);
-			g.fillRect(150 + i * LADDER_WIDTH + 80, 100, 10, STEP_HEIGHT * wallHeight);
+			g.fillRect((Game.WIDTH - LADDER_WIDTH * numberOfLadders)/2 + i * LADDER_WIDTH + 20, Game.HEIGHT - STEP_HEIGHT * wallHeight, 5, STEP_HEIGHT * wallHeight);
+			g.fillRect(150 + i * LADDER_WIDTH + 75, Game.HEIGHT - STEP_HEIGHT * wallHeight, 5, STEP_HEIGHT * wallHeight);
 			for (int j = 1; j < wallHeight; j++) {
-				g.fillRect(150 + i * LADDER_WIDTH + 10, 100 + j * STEP_HEIGHT, 80, 10);
+				g.fillRect(150 + i * LADDER_WIDTH + 20, Game.HEIGHT - j * STEP_HEIGHT, 60, 5);
 			}
 		}
 		
