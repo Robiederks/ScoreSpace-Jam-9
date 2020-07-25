@@ -17,7 +17,7 @@ public class Monster extends Entity {
 
 	@Override
 	public void tick() {
-		if (lives != 0) {
+		if (lives > 0) {
 			pixelY -= speed;
 			if (pixelY <= 10) {
 				lives -= 1;

@@ -96,8 +96,9 @@ public class World {
 		
 		for (Entity entity : nonPlayers) {
 			if (entity.getBounds().intersects(player.getBounds())) {
-				if (player.isKicking()) {
-					// TODO Monster geraakt
+				if (player.isKicking() && entity.getClass().equals(Monster.class)) {
+					Monster monster = (Monster) entity;
+					monster.damage();
 				}
 			}
 		}
