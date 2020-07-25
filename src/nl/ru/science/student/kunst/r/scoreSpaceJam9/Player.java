@@ -33,7 +33,17 @@ public class Player extends Entity {
 		if (pixelY <= 31) {
 			pixelX += vx;
 		}
-		pixelY += vy;
+		if (pixelY <= 31 && pixelY + vy >= 31) {
+			for (int i = 0; i < world.getNumberOfLadders(); i++) {
+				if (i*World.LADDER_WIDTH + 0.2*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 <= pixelX && i*World.LADDER_WIDTH + 0.8*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 >= pixelX) {
+					pixelX = i*World.LADDER_WIDTH + (World.LADDER_WIDTH - 44)/2 + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2;
+					pixelY += vy;
+				}
+			}
+		}
+		else {
+			pixelY += vy;
+		}
 	}
 	
 	public void keyPressed(int key) {

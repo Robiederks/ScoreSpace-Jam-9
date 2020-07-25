@@ -20,6 +20,10 @@ public class World {
 	private Handler handler;
 	
 	private int numberOfLadders;
+	public int getNumberOfLadders() {
+		return numberOfLadders;
+	}
+
 	private int wallHeight; // Hoogte van de muur in aantal sporten
 	
 	public static final int LADDER_WIDTH = 100; // Breedte in pixels van een kolom
