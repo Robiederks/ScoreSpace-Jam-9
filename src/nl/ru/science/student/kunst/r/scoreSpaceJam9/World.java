@@ -85,7 +85,7 @@ public class World {
 		while (monsterTimer >= monsterTimes.peek()) {
 			monsterTimer = 0;
 			monsterTimes.poll();
-			nonPlayers.add(new Monster(monsterLocations.poll(), wallHeight + 2, this));
+			nonPlayers.add(new Monster(monsterLocations.poll(), wallHeight + 2, this, 1));
 		}
 		
 		player.tick();
@@ -130,7 +130,7 @@ public class World {
 	
 	public void keyPressed(int key) {
 		if (key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9 && key - 48 < numberOfLadders) {
-			nonPlayersToAdd.add(new Monster(key - 48, wallHeight + 2, this));
+			nonPlayersToAdd.add(new Monster(key - 48, wallHeight + 2, this, 1));
 		}
 		else {
 			player.keyPressed(key);
