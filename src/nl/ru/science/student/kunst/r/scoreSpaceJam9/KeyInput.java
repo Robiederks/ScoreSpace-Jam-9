@@ -25,7 +25,8 @@ public class KeyInput implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent event) {
-		
+		char key = event.getKeyChar();
+		handler.keyTyped(key);
 	}
 	
 	

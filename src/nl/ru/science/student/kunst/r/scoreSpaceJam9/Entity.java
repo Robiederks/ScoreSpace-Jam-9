@@ -42,4 +42,12 @@ public abstract class Entity {
 		sprite.draw(g, pixelX, pixelY);
 	}
 
+	public int getPixelX() {
+		return pixelX;
+	}
+
+	public int getPixelY() {
+		return pixelY;
+	}
+
 }

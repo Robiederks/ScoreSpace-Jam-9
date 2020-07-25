@@ -34,6 +34,8 @@ public class World {
 	private Queue<Integer> monsterTimes;
 	private Queue<Integer> monsterLocations;
 	
+	private Inventory inventory;
+	
 	private int monsterTimer;
 	
 	public World(String filename, Handler handler) {
@@ -41,6 +43,7 @@ public class World {
 		nonPlayers = new ArrayList<>();
 		nonPlayersToAdd = new ArrayList<>();
 		nonPlayersToRemove = new ArrayList<>();
+		inventory = new Inventory();
 		readFile(filename);
 	}
 	
@@ -100,6 +103,11 @@ public class World {
 					Monster monster = (Monster) entity;
 					monster.damage();
 				}
+				if (entity instanceof Collectable) {
+					Collectable item = (Collectable) entity;
+					inventory.addItem(item);
+					removeNonPlayer(item);
+				}
 			}
 		}
 		
@@ -110,7 +118,7 @@ public class World {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.YELLOW);
+		g.setColor(new Color(0x888800));
 		g.fillRect(0, Game.HEIGHT - STEP_HEIGHT * getWallHeight(), Game.WIDTH, STEP_HEIGHT * getWallHeight());
 		
 		g.setColor(Color.BLACK);
@@ -127,11 +135,19 @@ public class World {
 		for (Entity entity : nonPlayers) {
 			entity.render(g);
 		}
+		
+		inventory.render(g);
 	}
 	
 	public void keyPressed(int key) {
 		if (key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9 && key - 48 < numberOfLadders) {
 			nonPlayersToAdd.add(new Monster(key - 48, getWallHeight() + 2, this, 1));
+		}
+		else if (key == KeyEvent.VK_C) {
+			addNonPlayer(new TestItem(2, this));
+		}
+		else if (key == KeyEvent.VK_X) {
+			inventory.useItem(player.getPixelX(), player.getPixelY());
 		}
 		else {
 			player.keyPressed(key);
@@ -140,6 +156,10 @@ public class World {
 	
 	public void keyReleased(int key) {
 		player.keyReleased(key);
+	}
+	
+	public void keyTyped(char key) {
+		inventory.keyTyped(key);
 	}
 
 	public int getWallHeight() {
@@ -152,6 +172,14 @@ public class World {
 	
 	public void addScore(int dScore) {
 		handler.addScore(dScore);
+	}
+	
+	public void addNonPlayer(Entity entity) {
+		nonPlayersToAdd.add(entity);
+	}
+	
+	public void removeNonPlayer(Entity entity) {
+		nonPlayersToRemove.add(entity);
 	}
 
 }

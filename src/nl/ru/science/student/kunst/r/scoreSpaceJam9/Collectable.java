@@ -59,6 +59,15 @@ public abstract class Collectable extends Entity {
 		}
 	}
 	
-	public abstract void use();
+	public abstract void use(int x, int y);
+	
+	public Sprite getSprite() {
+		return sprite;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return this.getClass()==o.getClass();
+	}
 
 }

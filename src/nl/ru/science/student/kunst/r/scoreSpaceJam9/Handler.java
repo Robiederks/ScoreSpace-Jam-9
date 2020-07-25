@@ -34,6 +34,10 @@ public class Handler {
 		world.keyReleased(key);
 	}
 	
+	public void keyTyped(char key) {
+		world.keyTyped(key);
+	}
+	
 	public void addScore(int dScore) {
 		score += dScore;
 	}
