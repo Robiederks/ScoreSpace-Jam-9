@@ -9,14 +9,23 @@ import java.awt.event.KeyEvent;
  */
 public class Player extends Entity {
 
-	int vx;
-	int vy;
+	private int vx;
+	private int vy;
+	
+	private boolean kicking;
+	private int kickTimer;
+	
+	private Sprite[] sprites;
 	
 	public Player(int x, int y, World world) {
-		super(x, y, 60, 80, world);
-		sprite = new Sprite("player");
+		super(x, y, 44, 69, world);
+		Sprite[] sprites = {new Sprite("player"), new Sprite("player_kick1")};
+		this.sprites = sprites;
+		sprite = sprites[0];
+		
 		vx = 0;
 		vy = 0;
+		kicking = false;
 	}
 
 	@Override
@@ -43,6 +52,11 @@ public class Player extends Entity {
 		case KeyEvent.VK_RIGHT:
 			vx = 5;
 			break;
+		case KeyEvent.VK_SPACE:
+			kicking = true;
+			height = 90;
+			sprite = sprites[1];
+			break;
 		}
 	}
 	
@@ -64,7 +78,16 @@ public class Player extends Entity {
 		case KeyEvent.VK_RIGHT:
 			vx = 0;
 			break;
+		case KeyEvent.VK_SPACE:
+			kicking = false;
+			height = 69;
+			sprite = sprites[0];
+			break;
 		}
+	}
+
+	public boolean isKicking() {
+		return kicking;
 	}
 
 }
