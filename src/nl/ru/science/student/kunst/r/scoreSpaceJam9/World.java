@@ -35,13 +35,14 @@ public class World {
 	
 	private Inventory inventory;
 	
+	private boolean Hopperdiehop;
 	private int gameTimer;
 	private int monsterTimer;
 	private int itemTimer;
 	private int itemTimelimit;
-	public int freezeTimer;
+	private int freezeTimer;
+	private int hopTimer;
 	private Random random;
-	private int randitem;
 	
 	private Sprite wall;
 	private Sprite ladder;
@@ -82,6 +83,8 @@ public class World {
 		itemTimer = 1000;
 		itemTimelimit = -1;
 		freezeTimer = 0;
+		hopTimer = 0;
+		Hopperdiehop = true;
 		
 		// Bestand afsluiten
 		in.close();
@@ -93,6 +96,7 @@ public class World {
 		itemTimelimit--;
 		gameTimer++;
 		freezeTimer--;
+		hopTimer--;
 		while (monsterTimer <= 0) {
 			monsterTimer = random.nextInt(60 + 300000/(gameTimer+600));
 			nonPlayers.add(new Monster(random.nextInt(numberOfLadders), getWallHeight() + 2, this, 1));
@@ -101,23 +105,22 @@ public class World {
 		while (itemTimer <= 0) {
 			itemTimer += 1000 + random.nextInt(100);
 			itemTimelimit = 50;
-			randitem = random.nextInt(4);
+			int randitem = random.nextInt(1);
 			switch (randitem) {
-			case 0:
-				addNonPlayer(new TrapItem(random.nextInt(numberOfLadders), random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+			case 3:
+				addNonPlayer(new TrapItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
 				break;
 			case 1:
-				addNonPlayer(new BulletItem(random.nextInt(numberOfLadders), random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				addNonPlayer(new BulletItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
 				break;
 			case 2:
-				addNonPlayer(new FreezeItem(random.nextInt(numberOfLadders), random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				addNonPlayer(new FreezeItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
 				break;
-			case 3:
-				addNonPlayer(new HopItem(random.nextInt(numberOfLadders), random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+			case 0:
+				addNonPlayer(new HopItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
 				break;
 			}
 		}
-		
 		if (itemTimelimit <= 0) {
 			for (Entity entity : nonPlayers) {
 				if (entity.getClass().equals(Collectable.class)) {
@@ -125,6 +128,9 @@ public class World {
 					itemTimelimit = -1;
 				}
 			}
+		}
+		if (hopTimer <= 0) {
+			Hopperdiehop = false;
 		}
 		
 		player.tick();
@@ -224,6 +230,10 @@ public class World {
 		return numberOfLadders;
 	}
 	
+	public boolean getHopperdiehop() {
+		return Hopperdiehop;
+	}
+	
 	public void addScore(int dScore) {
 		handler.addScore(dScore);
 	}
@@ -238,6 +248,15 @@ public class World {
 	
 	public void removeNonPlayer(Entity entity) {
 		nonPlayersToRemove.add(entity);
+	}
+	
+	public void setFreeze() {
+		freezeTimer = 200;
+	}
+	
+	public void setHop() {
+		Hopperdiehop = true;
+		hopTimer = 200;
 	}
 
 }

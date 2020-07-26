@@ -33,7 +33,7 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
-		if (pixelY + 69 <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight() || world.Hopperdie = True) {
+		if (pixelY + 69 <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight() || (world.getHopperdiehop() == true && (0.2*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 <= pixelX && (world.getNumberOfLadders()-1)*World.LADDER_WIDTH + 0.8*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 >= pixelX))) {
 			if (pixelX + vx >= 0 && pixelX + width + vx <= Game.WIDTH) {
 				pixelX += vx;
 			}
@@ -108,6 +108,10 @@ public class Player extends Entity {
 			if (vx == -5) {
 				vx = 0;
 			}
+			if (pixelY + 69 > Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
+				int ladder = (pixelX + 22 - (Game.WIDTH-World.LADDER_WIDTH*world.getNumberOfLadders())/2) / World.LADDER_WIDTH;
+				pixelX = ladder*World.LADDER_WIDTH + (World.LADDER_WIDTH - 44)/2 + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2;
+			}
 			break;
 		case KeyEvent.VK_S:
 		case KeyEvent.VK_DOWN:
@@ -119,6 +123,10 @@ public class Player extends Entity {
 		case KeyEvent.VK_RIGHT:
 			if (vx == 5) {
 				vx = 0;
+			}
+			if (pixelY + 69 > Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
+				int ladder = (pixelX + 22 - (Game.WIDTH-World.LADDER_WIDTH*world.getNumberOfLadders())/2) / World.LADDER_WIDTH;
+				pixelX = ladder*World.LADDER_WIDTH + (World.LADDER_WIDTH - 44)/2 + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2;
 			}
 			break;
 		case KeyEvent.VK_SPACE:
