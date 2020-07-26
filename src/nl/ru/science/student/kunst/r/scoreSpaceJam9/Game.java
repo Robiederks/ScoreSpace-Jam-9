@@ -13,13 +13,22 @@ public class Game extends Canvas implements Runnable {
 	public static final int HEIGHT = 600;
 	
 	private Handler handler;
+	private Menu menu;
+	
+	private enum State {
+		MENU, GAME
+	}
+	private State state;
 	
 	public Game() {
-		handler = new Handler(this);
+		menu = new Menu(this);
+		addMouseListener(menu);
 		
-		addKeyListener(new KeyInput(handler));
+		addKeyListener(new KeyInput(this));
 		
-		new Window(WIDTH , HEIGHT, "Climbing the social ladder",this);
+		new Window(WIDTH , HEIGHT, "The wall",this);
+		
+		state = State.MENU;
 		
 		requestFocus();
 	}
@@ -79,7 +88,15 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(new Color(0x8855FF));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
-		handler.render(g);
+		switch (state) {
+		case MENU:
+			menu.render(g);
+			break;
+		case GAME:
+			handler.render(g);
+			break;
+		}
+		
 		
 		// Graphics netjes afsluiten
 		g.dispose();
@@ -87,7 +104,36 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void tick() {
-		handler.tick();
+		switch (state) {
+		case MENU:
+			break;
+		case GAME:
+			handler.tick();
+			break;
+		}
+	}
+
+	public void gameOver() {
+		state = State.MENU;
+		addMouseListener(menu);
+	}
+
+	public void play() {
+		handler = new Handler(this);
+		state = State.GAME;
+		removeMouseListener(menu);
+	}
+
+	public void keyPressed(int key) {
+		handler.keyPressed(key);
+	}
+
+	public void keyReleased(int key) {
+		handler.keyReleased(key);
+	}
+
+	public void keyTyped(char key) {
+		handler.keyTyped(key);
 	}
 	
 	

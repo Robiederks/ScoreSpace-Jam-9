@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -31,16 +32,19 @@ public class World {
 	private ArrayList<Entity> nonPlayersToAdd;
 	private ArrayList<Entity> nonPlayersToRemove;
 	
-	private Queue<Integer> monsterTimes;
-	private Queue<Integer> monsterLocations;
+	private Inventory inventory;
 	
+	private int gameTimer;
 	private int monsterTimer;
+	private Random random;
 	
 	public World(String filename, Handler handler) {
 		this.handler = handler;
 		nonPlayers = new ArrayList<>();
 		nonPlayersToAdd = new ArrayList<>();
 		nonPlayersToRemove = new ArrayList<>();
+		inventory = new Inventory();
+		random = new Random();
 		readFile(filename);
 	}
 	
@@ -62,30 +66,20 @@ public class World {
 		numberOfLadders = in.nextInt();
 		wallHeight = in.nextInt();
 		
-		// Monsters
-		monsterLocations = new LinkedList<>();
-		monsterTimes = new LinkedList<>();
-		int numberOfMonsters = in.nextInt();
-		for (int i = 0; i < numberOfMonsters; i++) {
-			int timeSinceLast = in.nextInt();
-			int ladder = in.nextInt();
-			monsterLocations.add(ladder);
-			monsterTimes.add(timeSinceLast);
-		}
-		monsterTimes.add(Integer.MAX_VALUE); // +oneindig als laatste wachttijd om een lege rij te voorkomen
-		
 		player = new Player(numberOfLadders/2, 0, this);
+		
+		monsterTimer = 60;
 		
 		// Bestand afsluiten
 		in.close();
 	}
 	
 	public void tick() {
-		monsterTimer++;
-		while (monsterTimer >= monsterTimes.peek()) {
-			monsterTimer = 0;
-			monsterTimes.poll();
-			nonPlayers.add(new Monster(monsterLocations.poll(), getWallHeight() + 2, this, 1));
+		monsterTimer--;
+		gameTimer++;
+		while (monsterTimer <= 0) {
+			monsterTimer = random.nextInt(60 + 300000/(gameTimer+600));
+			nonPlayers.add(new Monster(random.nextInt(numberOfLadders), getWallHeight() + 2, this, 1));
 		}
 		
 		player.tick();
@@ -99,6 +93,11 @@ public class World {
 				if (player.isKicking() && entity.getClass().equals(Monster.class)) {
 					Monster monster = (Monster) entity;
 					monster.damage();
+				}
+				if (entity instanceof Collectable) {
+					Collectable item = (Collectable) entity;
+					inventory.addItem(item);
+					removeNonPlayer(item);
 				}
 			}
 			for (Entity other_entity : nonPlayers) {
@@ -131,7 +130,7 @@ public class World {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.YELLOW);
+		g.setColor(new Color(0x888800));
 		g.fillRect(0, Game.HEIGHT - STEP_HEIGHT * getWallHeight(), Game.WIDTH, STEP_HEIGHT * getWallHeight());
 		
 		g.setColor(Color.BLACK);
@@ -148,11 +147,19 @@ public class World {
 		for (Entity entity : nonPlayers) {
 			entity.render(g);
 		}
+		
+		inventory.render(g);
 	}
 	
 	public void keyPressed(int key) {
 		if (key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9 && key - 48 < numberOfLadders) {
 			nonPlayersToAdd.add(new Monster(key - 48, getWallHeight() + 2, this, 1));
+		}
+		else if (key == KeyEvent.VK_C) {
+			addNonPlayer(new TestItem(2, this));
+		}
+		else if (key == KeyEvent.VK_X) {
+			inventory.useItem(player.getPixelX(), player.getPixelY());
 		}
 		else {
 			player.keyPressed(key);
@@ -161,6 +168,10 @@ public class World {
 	
 	public void keyReleased(int key) {
 		player.keyReleased(key);
+	}
+	
+	public void keyTyped(char key) {
+		inventory.keyTyped(key);
 	}
 
 	public int getWallHeight() {
@@ -175,10 +186,16 @@ public class World {
 		handler.addScore(dScore);
 	}
 	
-	public void AddnonPlayer(Entity entity) {
+	public void addHealth(int dHealth) {
+		handler.addHealth(dHealth);
+	}
+	
+	public void addNonPlayer(Entity entity) {
 		nonPlayersToAdd.add(entity);
 	}
-	public void RemovenonPlayer(Entity entity) {
-		nonPlayersToRemove.remove(entity);
+	
+	public void removeNonPlayer(Entity entity) {
+		nonPlayersToRemove.add(entity);
 	}
+
 }

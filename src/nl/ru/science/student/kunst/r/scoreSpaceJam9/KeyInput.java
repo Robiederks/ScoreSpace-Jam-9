@@ -5,27 +5,28 @@ import java.awt.event.KeyListener;
 
 public class KeyInput implements KeyListener {
 	
-	private Handler handler;
+	private Game game;
 
-	public KeyInput(Handler handler) {
-		this.handler = handler;
+	public KeyInput(Game game) {
+		this.game = game;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
-		handler.keyPressed(key);
+		game.keyPressed(key);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent event) {
 		int key = event.getKeyCode();
-		handler.keyReleased(key);
+		game.keyReleased(key);
 	}
 
 	@Override
 	public void keyTyped(KeyEvent event) {
-		
+		char key = event.getKeyChar();
+		game.keyTyped(key);
 	}
 	
 	

@@ -29,12 +29,12 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
-		if (pixelY + height <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
+		if (pixelY + 69 <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
 			if (pixelX + vx >= 0 && pixelX + width + vx <= Game.WIDTH) {
 				pixelX += vx;
 			}
 		}
-		if (pixelY + height <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {//&& pixelY + height + vy > Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
+		if (pixelY + 69 <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {//&& pixelY + 69 + vy > Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
 			for (int i = 0; i < world.getNumberOfLadders(); i++) {
 				if (i*World.LADDER_WIDTH + 0.2*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 <= pixelX && i*World.LADDER_WIDTH + 0.8*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 >= pixelX) {
 					if (vy > 0) {

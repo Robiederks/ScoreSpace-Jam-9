@@ -32,6 +32,15 @@ public class Monster extends Entity {
 			pixelX += (this.fall_direction*2 - 1);
 			t += 1;
 		}
+		
+		if (pixelY < Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight() - height) {
+			world.addHealth(-1);
+			world.removeNonPlayer(this);
+		}
+		
+		if (pixelY > Game.HEIGHT + 500) {
+			world.removeNonPlayer(this);
+		}
 	}
 	
 	public void damage() {
