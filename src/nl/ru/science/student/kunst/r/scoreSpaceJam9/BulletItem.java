@@ -7,8 +7,7 @@ public class BulletItem extends Collectable {
 	}
 	
 	public void use(int player_x, int player_y) {
-		world.AddnonPlayer(new Bullet(player_x, player_y, world));
-		world.RemovenonPlayer(this);
+		world.addNonPlayer(new Bullet(player_x, player_y, world));
 	}
 
 }

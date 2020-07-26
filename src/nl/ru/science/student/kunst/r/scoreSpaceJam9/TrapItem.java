@@ -7,8 +7,7 @@ public class TrapItem extends Collectable{
 	}
 	
 	public void use(int player_x, int player_y) {
-		world.AddnonPlayer(new Trap(player_x, player_y, world));
-		world.RemovenonPlayer(this);	
+		world.addNonPlayer(new Trap(player_x, player_y, world));	
 	}
 	
 }
