@@ -16,6 +16,8 @@ public class Player extends Entity {
 	private int kickTimer;
 	
 	private Sprite[] sprites;
+	private boolean kickEnabled;
+	private boolean spaceDown;
 	
 	public Player(int x, int y, World world) {
 		super(x, y, 44, 69, world);
@@ -25,6 +27,8 @@ public class Player extends Entity {
 		vx = 0;
 		vy = 0;
 		kicking = false;
+		kickEnabled = true;
+		spaceDown = false;
 	}
 
 	@Override
@@ -48,6 +52,16 @@ public class Player extends Entity {
 			pixelY += vy;
 		}
 		
+		kickTimer--;
+		if (kickTimer <= 0) {
+			kicking = false;
+			height = 69;
+			sprite = sprites[0];
+			
+			if (kickTimer <= -10) {
+				kickEnabled = true;
+			}
+		}
 	}
 	
 	public void keyPressed(int key) {
@@ -69,10 +83,14 @@ public class Player extends Entity {
 			vx = 5;
 			break;
 		case KeyEvent.VK_SPACE:
-			kicking = true;
-			height = 90;
-			sprite = sprites[1];
-			kickTimer = 20;
+			if (kickEnabled && !spaceDown) {
+				kickTimer = 10;
+				kicking = true;
+				height = 90;
+				sprite = sprites[1];
+				kickEnabled = false;
+				spaceDown = true;
+			}
 			break;
 		}
 	}
@@ -104,10 +122,7 @@ public class Player extends Entity {
 			}
 			break;
 		case KeyEvent.VK_SPACE:
-			kicking = false;
-			height = 69;
-			sprite = sprites[0];
-			break;
+			spaceDown = false;
 		}
 	}
 

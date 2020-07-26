@@ -38,6 +38,9 @@ public class World {
 	private int monsterTimer;
 	private Random random;
 	
+	private Sprite wall;
+	private Sprite ladder;
+	
 	public World(String filename, Handler handler) {
 		this.handler = handler;
 		nonPlayers = new ArrayList<>();
@@ -45,6 +48,8 @@ public class World {
 		nonPlayersToRemove = new ArrayList<>();
 		inventory = new Inventory();
 		random = new Random();
+		wall = new Sprite("wall");
+		ladder = new Sprite("ladder");
 		readFile(filename);
 	}
 	
@@ -130,16 +135,11 @@ public class World {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(new Color(0x888800));
-		g.fillRect(0, Game.HEIGHT - STEP_HEIGHT * getWallHeight(), Game.WIDTH, STEP_HEIGHT * getWallHeight());
+		wall.draw(g, 0, Game.HEIGHT - STEP_HEIGHT * getWallHeight());
 		
-		g.setColor(Color.BLACK);
 		for (int i = 0; i < numberOfLadders; i++) {
-			g.fillRect((Game.WIDTH - LADDER_WIDTH * numberOfLadders)/2 + i * LADDER_WIDTH + 20, Game.HEIGHT - STEP_HEIGHT * getWallHeight(), 5, STEP_HEIGHT * getWallHeight());
-			g.fillRect(150 + i * LADDER_WIDTH + 75, Game.HEIGHT - STEP_HEIGHT * getWallHeight(), 5, STEP_HEIGHT * getWallHeight());
-			for (int j = 1; j < getWallHeight(); j++) {
-				g.fillRect(150 + i * LADDER_WIDTH + 20, Game.HEIGHT - j * STEP_HEIGHT, 60, 5);
-			}
+			ladder.draw(g,(Game.WIDTH - LADDER_WIDTH * numberOfLadders)/2 + i * LADDER_WIDTH + 20, Game.HEIGHT - STEP_HEIGHT * getWallHeight() - 10);
+			
 		}
 		
 		player.render(g);

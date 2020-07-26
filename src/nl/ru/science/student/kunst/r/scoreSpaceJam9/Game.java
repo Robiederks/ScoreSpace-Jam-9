@@ -14,6 +14,7 @@ public class Game extends Canvas implements Runnable {
 	
 	private Handler handler;
 	private Menu menu;
+	private Background background;
 	
 	private enum State {
 		MENU, GAME
@@ -21,6 +22,8 @@ public class Game extends Canvas implements Runnable {
 	private State state;
 	
 	public Game() {
+		background = new Background();
+		
 		menu = new Menu(this);
 		addMouseListener(menu);
 		
@@ -84,9 +87,7 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		
 		// Hier gebeurt het
-		// Achtergrond
-		g.setColor(new Color(0x8855FF));
-		g.fillRect(0, 0, WIDTH, HEIGHT);
+		background.render(g);	
 		
 		switch (state) {
 		case MENU:
@@ -104,6 +105,8 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void tick() {
+		background.tick();
+		
 		switch (state) {
 		case MENU:
 			break;
@@ -113,7 +116,8 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
-	public void gameOver() {
+	public void gameOver(int score) {
+		menu.gameOver(score);
 		state = State.MENU;
 		addMouseListener(menu);
 	}

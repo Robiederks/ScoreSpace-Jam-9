@@ -15,10 +15,14 @@ public class Menu extends MouseAdapter {
 	
 	private Sprite button;
 	
+	private Leaderboard leaderboard;
+	
 	private int clicked;
 	
+	private int score;
+	
 	private enum State {
-		MAIN, HELP, GAME_OVER, LEADERBOARD
+		MAIN, LEADERBOARD, HELP, GAME_OVER
 	}
 	private State state;
 	
@@ -26,6 +30,7 @@ public class Menu extends MouseAdapter {
 		this.game = game;
 		state = State.MAIN;
 		button = new Sprite("menu_button");
+		leaderboard = new Leaderboard();
 	}
 	
 	public void render(Graphics g) {
@@ -44,6 +49,19 @@ public class Menu extends MouseAdapter {
 			g.drawString("High scores", 225 - fm.stringWidth("High scores")/2, 425 - fm.getHeight()/2 + fm.getAscent());
 			g.drawString("Exit", 575 - fm.stringWidth("Exit")/2, 425 - fm.getHeight()/2 + fm.getAscent());
 			break;
+			
+		case GAME_OVER:
+			g.drawString("Score: " + score, 100, 100);
+			
+		case LEADERBOARD:
+			button.draw(g, 275, 400);
+			g.drawString("Back", 400 - fm.stringWidth("Back")/2, 475 - fm.getHeight()/2 + fm.getAscent());
+			
+			leaderboard.render(g, 100, 150);
+			break;
+			
+		case HELP:
+			break;
 		}
 		
 		g.setColor(new Color(255, 255, 255, 127));
@@ -60,6 +78,9 @@ public class Menu extends MouseAdapter {
 		case 4:
 			g.fillRect(454, 354, 242, 142);
 			break;
+		case 5:
+			g.fillRect(279, 404, 242, 142);
+			break;
 		}
 	}
 	
@@ -75,12 +96,22 @@ public class Menu extends MouseAdapter {
 			else if ((new Rectangle(450, 100, 250, 150)).contains(clickLocation)) { // How to play
 				clicked = 2;
 			}
-			else if ((new Rectangle(100, 350, 250, 150)).contains(clickLocation)) { // High score
+			else if ((new Rectangle(100, 350, 250, 150)).contains(clickLocation)) { // High scores
 				clicked = 3;
 			}
 			else if ((new Rectangle(450, 350, 250, 150)).contains(clickLocation)) { // Exit
 				clicked = 4;
 			}
+			break;
+			
+		case GAME_OVER:
+		case LEADERBOARD:
+			if ((new Rectangle(275, 400, 250, 150)).contains(clickLocation)) { // Back
+				clicked = 5;
+			}
+			break;
+			
+		case HELP:
 			break;
 		}
 	}
@@ -94,18 +125,34 @@ public class Menu extends MouseAdapter {
 			if (clicked == 1 && (new Rectangle(100, 100, 250, 150)).contains(clickLocation)) { // Play
 				game.play();
 			}
-			else if (clicked == 2 && (new Rectangle(450, 350, 250, 150)).contains(clickLocation)) { // How to play
+			else if (clicked == 2 && (new Rectangle(450, 100, 250, 150)).contains(clickLocation)) { // How to play
 				
 			}
-			else if (clicked == 3 && (new Rectangle(450, 350, 250, 150)).contains(clickLocation)) { // High score
-				
+			else if (clicked == 3 && (new Rectangle(100, 350, 250, 150)).contains(clickLocation)) { // High scores
+				state = State.LEADERBOARD;
 			}
 			else if (clicked == 4 && (new Rectangle(450, 350, 250, 150)).contains(clickLocation)) { // Exit
 				System.exit(0);
 			}
 			break;
+
+		case GAME_OVER:
+		case LEADERBOARD:
+			if (clicked == 5 && (new Rectangle(275, 400, 250, 150)).contains(clickLocation)) { // Back
+				state = State.MAIN;
+			}
+			break;
+		
+		case HELP:
+			break;
 		}
 		clicked = 0;
+	}
+	
+	public void gameOver(int score) {
+		state = State.GAME_OVER;
+		this.score = score;
+		leaderboard.addScore(score, System.getProperty("user.name"));
 	}
 
 }

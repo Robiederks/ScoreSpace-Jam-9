@@ -23,7 +23,7 @@ public class Handler {
 		world.tick();
 		
 		if (health <= 0) {
-			game.gameOver();
+			game.gameOver(score);
 		}
 	}
 	
