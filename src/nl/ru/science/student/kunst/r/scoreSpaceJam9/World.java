@@ -101,6 +101,27 @@ public class World {
 					monster.damage();
 				}
 			}
+			for (Entity other_entity : nonPlayers) {
+				if (entity.getBounds().intersects(other_entity.getBounds())) {
+					if (entity.getClass().equals(Monster.class)) {
+						if (other_entity.getClass().equals(Trap.class)) {
+							Monster monster = (Monster) entity;
+							monster.damage();
+							nonPlayersToRemove.add(other_entity);
+						}
+						if (other_entity.getClass().equals(Bullet.class)) {
+							Monster monster = (Monster) entity;
+							monster.damage();
+						}
+					}
+				}
+			}
+		}
+		
+		for (Entity entity : nonPlayers) {
+			if (entity.pixelY >= Game.HEIGHT + 5) {
+				nonPlayersToRemove.add(entity);
+			}
 		}
 		
 		nonPlayers.removeAll(nonPlayersToRemove);
@@ -153,5 +174,11 @@ public class World {
 	public void addScore(int dScore) {
 		handler.addScore(dScore);
 	}
-
+	
+	public void AddnonPlayer(Entity entity) {
+		nonPlayersToAdd.add(entity);
+	}
+	public void RemovenonPlayer(Entity entity) {
+		nonPlayersToRemove.remove(entity);
+	}
 }

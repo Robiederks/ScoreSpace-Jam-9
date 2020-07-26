@@ -1,13 +1,18 @@
 package nl.ru.science.student.kunst.r.scoreSpaceJam9;
+import java.util.Random;
 
 public class Monster extends Entity {
-
+	
+	Random rand = new Random();
+	
 	private int speed;
 	private int t;
 	private int lives;
+	private int fall_direction;
 	
 	public Monster(int x, int y, World world, int startLives) {
 		super(x, y, 44, 69, world);
+		this.fall_direction = rand.nextInt(2);
 		speed = 1;
 		sprite = new Sprite("monster");
 		lives = startLives;
@@ -23,7 +28,8 @@ public class Monster extends Entity {
 			}
 		}
 		else {
-			pixelY += 0.01*0.5*9.81*(t*t);
+			pixelY += 0.005*0.5*9.81*(t*t);
+			pixelX += (this.fall_direction*2 - 1);
 			t += 1;
 		}
 	}

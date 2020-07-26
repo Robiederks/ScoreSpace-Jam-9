@@ -30,19 +30,24 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		if (pixelY + height <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
-			pixelX += vx;
+			if (pixelX + vx >= 0 && pixelX + width + vx <= Game.WIDTH) {
+				pixelX += vx;
+			}
 		}
-		if (pixelY + height <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight() && pixelY + height + vy > Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
+		if (pixelY + height <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {//&& pixelY + height + vy > Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
 			for (int i = 0; i < world.getNumberOfLadders(); i++) {
 				if (i*World.LADDER_WIDTH + 0.2*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 <= pixelX && i*World.LADDER_WIDTH + 0.8*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 >= pixelX) {
-					pixelX = i*World.LADDER_WIDTH + (World.LADDER_WIDTH - 44)/2 + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2;
-					pixelY += vy;
+					if (vy > 0) {
+						pixelX = i*World.LADDER_WIDTH + (World.LADDER_WIDTH - 44)/2 + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2;
+						pixelY += vy;
+					}
 				}
 			}
 		}
-		else {
+		else if (pixelY + vy <= Game.HEIGHT - height) {
 			pixelY += vy;
 		}
+		
 	}
 	
 	public void keyPressed(int key) {

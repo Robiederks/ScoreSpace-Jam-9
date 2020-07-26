@@ -5,9 +5,10 @@ public abstract class Collectable extends Entity {
 	private int state;
 	private int timer;
 	
-	public Collectable(int x, World world) {
-		super(x, -4, 24, 24, world);
+	public Collectable(int x, int y, World world) {
+		super(x, y, 24, 24, world);
 		state = 0;
+		sprite = new Sprite("Collectable");
 	}
 
 	@Override
@@ -59,6 +60,6 @@ public abstract class Collectable extends Entity {
 		}
 	}
 	
-	public abstract void use();
+	public abstract void use(int player_x, int player_y);
 
 }
