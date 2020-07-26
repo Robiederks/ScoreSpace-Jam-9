@@ -28,7 +28,7 @@ public class Leaderboard {
 			Scanner reader = new Scanner(file);
 			while (reader.hasNext()) {
 				scores.add(reader.nextInt());
-				names.add(reader.nextLine());
+				names.add(reader.nextLine().trim());
 			}
 			reader.close();
 		} catch (FileNotFoundException e) {

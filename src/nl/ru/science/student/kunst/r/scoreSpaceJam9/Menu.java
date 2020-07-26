@@ -14,6 +14,7 @@ public class Menu extends MouseAdapter {
 	private Game game;
 	
 	private Sprite button;
+	private Sprite help;
 	
 	private Leaderboard leaderboard;
 	
@@ -30,6 +31,7 @@ public class Menu extends MouseAdapter {
 		this.game = game;
 		state = State.MAIN;
 		button = new Sprite("menu_button");
+		help = new Sprite("help_menu");
 		leaderboard = new Leaderboard();
 	}
 	
@@ -61,6 +63,43 @@ public class Menu extends MouseAdapter {
 			break;
 			
 		case HELP:
+			button.draw(g, 275, 400);
+			g.drawString("Back", 400 - fm.stringWidth("Back")/2, 475 - fm.getHeight()/2 + fm.getAscent());
+			
+			help.draw(g, 100, 50);
+			
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("arial", Font.PLAIN, 20));
+			FontMetrics fm2 = g.getFontMetrics();
+			
+			String text = "Kill monsters by kicking them off the ladders. "
+					+ "You recieve one point for each monster you kick. "
+					+ "The are several items you can collect to use.";
+			String[] words = text.split(" ");
+			
+			String nextLine = words[0];
+			int line = 0;
+			for (int i = 1; i < words.length; i++) {
+				String appended = nextLine + " " + words[i];
+				if (fm2.stringWidth(appended) > 250) {
+					g.drawString(nextLine, 110, 60 + line * fm2.getHeight() + fm2.getAscent());
+					line++;
+					nextLine = words[i];
+				}
+				else {
+					nextLine = appended;
+				}
+			}
+			
+			g.drawString(nextLine, 110, 60 + line * fm2.getHeight() + fm2.getAscent());
+			
+			g.drawString("Controls:", 440, 60 + 0 * fm2.getHeight() + fm2.getAscent());
+			g.drawString("WASD/arrow keys to move", 440, 60 + 1 * fm2.getHeight() + fm2.getAscent());
+			g.drawString("Space to kick monsters", 440, 60 + 2 * fm2.getHeight() + fm2.getAscent());
+			g.drawString("Q and E to select items", 440, 60 + 3 * fm2.getHeight() + fm2.getAscent());
+			g.drawString("X to use an item", 440, 60 + 4 * fm2.getHeight() + fm2.getAscent());
+			
+			
 			break;
 		}
 		
@@ -106,12 +145,10 @@ public class Menu extends MouseAdapter {
 			
 		case GAME_OVER:
 		case LEADERBOARD:
+		case HELP:
 			if ((new Rectangle(275, 400, 250, 150)).contains(clickLocation)) { // Back
 				clicked = 5;
 			}
-			break;
-			
-		case HELP:
 			break;
 		}
 	}
@@ -126,7 +163,7 @@ public class Menu extends MouseAdapter {
 				game.play();
 			}
 			else if (clicked == 2 && (new Rectangle(450, 100, 250, 150)).contains(clickLocation)) { // How to play
-				
+				state = State.HELP;
 			}
 			else if (clicked == 3 && (new Rectangle(100, 350, 250, 150)).contains(clickLocation)) { // High scores
 				state = State.LEADERBOARD;
@@ -138,12 +175,10 @@ public class Menu extends MouseAdapter {
 
 		case GAME_OVER:
 		case LEADERBOARD:
+		case HELP:
 			if (clicked == 5 && (new Rectangle(275, 400, 250, 150)).contains(clickLocation)) { // Back
 				state = State.MAIN;
 			}
-			break;
-		
-		case HELP:
 			break;
 		}
 		clicked = 0;
