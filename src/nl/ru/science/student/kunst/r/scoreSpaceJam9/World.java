@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Class die alles in en rond de muur regelt, zoals de muur, de speler, de monsters, etcetera.
@@ -36,7 +37,11 @@ public class World {
 	
 	private int gameTimer;
 	private int monsterTimer;
+	private int itemTimer;
+	private int itemTimelimit;
+	public int freezeTimer;
 	private Random random;
+	private int randitem;
 	
 	public World(String filename, Handler handler) {
 		this.handler = handler;
@@ -69,6 +74,9 @@ public class World {
 		player = new Player(numberOfLadders/2, 0, this);
 		
 		monsterTimer = 60;
+		itemTimer = 1000;
+		itemTimelimit = -1;
+		freezeTimer = 0;
 		
 		// Bestand afsluiten
 		in.close();
@@ -76,16 +84,50 @@ public class World {
 	
 	public void tick() {
 		monsterTimer--;
+		itemTimer--;
+		itemTimelimit--;
 		gameTimer++;
+		freezeTimer--;
 		while (monsterTimer <= 0) {
 			monsterTimer = random.nextInt(60 + 300000/(gameTimer+600));
 			nonPlayers.add(new Monster(random.nextInt(numberOfLadders), getWallHeight() + 2, this, 1));
 		}
+		//maakt random verschillend items aan
+		while (itemTimer <= 0) {
+			itemTimer += 1000 + random.nextInt(100);
+			itemTimelimit = 50;
+			randitem = random.nextInt(4);
+			switch (randitem) {
+			case 0:
+				addNonPlayer(new TrapItem(random.nextInt(numberOfLadders), random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				break;
+			case 1:
+				addNonPlayer(new BulletItem(random.nextInt(numberOfLadders), random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				break;
+			case 2:
+				addNonPlayer(new FreezeItem(random.nextInt(numberOfLadders), random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				break;
+			case 3:
+				addNonPlayer(new HopItem(random.nextInt(numberOfLadders), random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				break;
+			}
+		}
+		
+		if (itemTimelimit <= 0) {
+			for (Entity entity : nonPlayers) {
+				if (entity.getClass().equals(Collectable.class)) {
+					nonPlayersToRemove.add(entity);
+					itemTimelimit = -1;
+				}
+			}
+		}
 		
 		player.tick();
 		
-		for (Entity entity : nonPlayers) {
-			entity.tick();
+		if (freezeTimer <= 0) {
+			for (Entity entity : nonPlayers) {
+				entity.tick();
+			}
 		}
 		
 		for (Entity entity : nonPlayers) {
@@ -153,10 +195,10 @@ public class World {
 	
 	public void keyPressed(int key) {
 		if (key >= KeyEvent.VK_0 && key <= KeyEvent.VK_9 && key - 48 < numberOfLadders) {
-			nonPlayersToAdd.add(new Monster(key - 48, getWallHeight() + 2, this, 1));
+			addNonPlayer(new Monster(key - 48, getWallHeight() + 2, this, 1));
 		}
 		else if (key == KeyEvent.VK_C) {
-			addNonPlayer(new TestItem(2, this));
+			nonPlayersToAdd.add(new TestItem(2, this));
 		}
 		else if (key == KeyEvent.VK_X) {
 			inventory.useItem(player.getPixelX(), player.getPixelY());

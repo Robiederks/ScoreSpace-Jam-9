@@ -8,16 +8,13 @@ public abstract class Collectable extends Entity {
 	public Collectable(int x, int y, World world) {
 		super(x, y, 24, 24, world);
 		state = 0;
-		sprite = new Sprite("Collectable");
 	}
 
 	@Override
 	public void tick() {
 		if (state == 0) {
 			pixelY += 1;
-			if (pixelY == Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight() - 49) {
-				state = 1;
-			}
+			state = 1;
 		}
 		else {
 			timer++;
