@@ -1,16 +1,12 @@
 package nl.ru.science.student.kunst.r.scoreSpaceJam9;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Class die alles in en rond de muur regelt, zoals de muur, de speler, de monsters, etcetera.
@@ -100,7 +96,7 @@ public class World {
 		//maakt random verschillend items aan
 		while (itemTimer <= 0) {
 			itemTimer += 1000 + random.nextInt(100);
-			itemTimelimit = 50;
+			itemTimelimit = 600;
 			randitem = random.nextInt(4);
 			switch (randitem) {
 			case 0:
@@ -120,7 +116,7 @@ public class World {
 		
 		if (itemTimelimit <= 0) {
 			for (Entity entity : nonPlayers) {
-				if (entity.getClass().equals(Collectable.class)) {
+				if (entity instanceof Collectable) {
 					nonPlayersToRemove.add(entity);
 					itemTimelimit = -1;
 				}

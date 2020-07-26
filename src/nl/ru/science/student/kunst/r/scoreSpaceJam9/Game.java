@@ -1,7 +1,6 @@
 package nl.ru.science.student.kunst.r.scoreSpaceJam9;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 

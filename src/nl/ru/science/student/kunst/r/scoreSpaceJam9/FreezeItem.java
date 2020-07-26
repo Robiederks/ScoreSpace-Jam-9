@@ -4,7 +4,7 @@ public class FreezeItem extends Collectable {
 	
 	public FreezeItem(int x, int y, World world) {
 		super(x, y, world);
-		sprite = new Sprite("Collectable");
+		sprite = new Sprite("freeze");
 	}
 	
 	@Override

@@ -33,6 +33,11 @@ public class Inventory {
 			if (amounts.get(selected) > 0) {
 				amounts.set(selected, amounts.get(selected) - 1);
 				items.get(selected).use(x, y);
+				if (amounts.get(selected) == 0) {
+					amounts.remove(selected);
+					items.remove(selected);
+					selected = -1;
+				}
 			}
 		}
 		else {
