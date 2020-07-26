@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -31,12 +32,11 @@ public class World {
 	private ArrayList<Entity> nonPlayersToAdd;
 	private ArrayList<Entity> nonPlayersToRemove;
 	
-	private Queue<Integer> monsterTimes;
-	private Queue<Integer> monsterLocations;
-	
 	private Inventory inventory;
 	
+	private int gameTimer;
 	private int monsterTimer;
+	private Random random;
 	
 	public World(String filename, Handler handler) {
 		this.handler = handler;
@@ -44,6 +44,7 @@ public class World {
 		nonPlayersToAdd = new ArrayList<>();
 		nonPlayersToRemove = new ArrayList<>();
 		inventory = new Inventory();
+		random = new Random();
 		readFile(filename);
 	}
 	
@@ -65,30 +66,20 @@ public class World {
 		numberOfLadders = in.nextInt();
 		wallHeight = in.nextInt();
 		
-		// Monsters
-		monsterLocations = new LinkedList<>();
-		monsterTimes = new LinkedList<>();
-		int numberOfMonsters = in.nextInt();
-		for (int i = 0; i < numberOfMonsters; i++) {
-			int timeSinceLast = in.nextInt();
-			int ladder = in.nextInt();
-			monsterLocations.add(ladder);
-			monsterTimes.add(timeSinceLast);
-		}
-		monsterTimes.add(Integer.MAX_VALUE); // +oneindig als laatste wachttijd om een lege rij te voorkomen
-		
 		player = new Player(numberOfLadders/2, 0, this);
+		
+		monsterTimer = 60;
 		
 		// Bestand afsluiten
 		in.close();
 	}
 	
 	public void tick() {
-		monsterTimer++;
-		while (monsterTimer >= monsterTimes.peek()) {
-			monsterTimer = 0;
-			monsterTimes.poll();
-			nonPlayers.add(new Monster(monsterLocations.poll(), getWallHeight() + 2, this, 1));
+		monsterTimer--;
+		gameTimer++;
+		while (monsterTimer <= 0) {
+			monsterTimer = random.nextInt(60 + 300000/(gameTimer+600));
+			nonPlayers.add(new Monster(random.nextInt(numberOfLadders), getWallHeight() + 2, this, 1));
 		}
 		
 		player.tick();
@@ -172,6 +163,10 @@ public class World {
 	
 	public void addScore(int dScore) {
 		handler.addScore(dScore);
+	}
+	
+	public void addHealth(int dHealth) {
+		handler.addHealth(dHealth);
 	}
 	
 	public void addNonPlayer(Entity entity) {

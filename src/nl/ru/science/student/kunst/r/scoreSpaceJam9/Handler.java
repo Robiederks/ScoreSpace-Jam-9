@@ -10,15 +10,21 @@ public class Handler {
 	private HUD hud;
 	
 	private int score;
+	private int health;
 	
 	public Handler(Game game) {
 		this.game = game;
 		world = new World("level", this);
 		hud = new HUD(this);
+		health = 3;
 	}
 	
 	public void tick() {
 		world.tick();
+		
+		if (health <= 0) {
+			game.gameOver();
+		}
 	}
 	
 	public void render(Graphics g) {
@@ -46,4 +52,12 @@ public class Handler {
 		return score;
 	}
 
+	public void addHealth(int dHealth) {
+		health += dHealth;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+	
 }

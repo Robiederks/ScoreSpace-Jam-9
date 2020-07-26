@@ -13,9 +13,11 @@ import java.awt.Graphics;
 public class HUD {
 
 	private Handler handler;
+	private Sprite heart;
 	
 	public HUD(Handler handler) {
 		this.handler = handler;
+		heart = new Sprite("heart");
 	}
 	
 	public void render(Graphics g) {
@@ -25,6 +27,10 @@ public class HUD {
 		FontMetrics fm = g.getFontMetrics();
 		
 		g.drawString("Score: " + handler.getScore(), 20, 20 + fm.getAscent());
+		
+		for (int i = 1; i <= handler.getHealth(); i++) {
+			heart.draw(g, Game.WIDTH - 52 * i, 20);
+		}
 	}
 
 }
