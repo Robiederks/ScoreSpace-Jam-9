@@ -16,6 +16,9 @@ public class Game extends Canvas implements Runnable {
 	private Menu menu;
 	private Background background;
 	
+	private SoundPlayer menuMusic;
+	private SoundPlayer gameMusic;
+	
 	private enum State {
 		MENU, GAME
 	}
@@ -29,9 +32,13 @@ public class Game extends Canvas implements Runnable {
 		
 		addKeyListener(new KeyInput(this));
 		
+		menuMusic = new SoundPlayer("Menu", true);
+		gameMusic = new SoundPlayer("Climbing", true);
+		
 		new Window(WIDTH , HEIGHT, "The wall",this);
 		
 		state = State.MENU;
+		menuMusic.play();
 		
 		requestFocus();
 	}
@@ -118,13 +125,17 @@ public class Game extends Canvas implements Runnable {
 
 	public void gameOver(int score) {
 		menu.gameOver(score);
+		gameMusic.stop();
 		state = State.MENU;
+		menuMusic.play();
 		addMouseListener(menu);
 	}
 
 	public void play() {
 		handler = new Handler(this);
+		menuMusic.stop();
 		state = State.GAME;
+		gameMusic.play();
 		removeMouseListener(menu);
 	}
 
