@@ -33,7 +33,7 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
-		if (pixelY + 69 <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
+		if (pixelY + 69 <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight() || world.Hopperdie = True) {
 			if (pixelX + vx >= 0 && pixelX + width + vx <= Game.WIDTH) {
 				pixelX += vx;
 			}

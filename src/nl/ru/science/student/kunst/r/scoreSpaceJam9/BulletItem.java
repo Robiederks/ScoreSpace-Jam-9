@@ -4,8 +4,10 @@ public class BulletItem extends Collectable {
 	
 	public BulletItem(int x, int y, World world) {
 		super(x, y, world);
+		sprite = new Sprite("Bullet");
 	}
 	
+	@Override
 	public void use(int player_x, int player_y) {
 		world.addNonPlayer(new Bullet(player_x, player_y, world));
 	}
