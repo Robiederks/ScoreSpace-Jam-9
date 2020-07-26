@@ -4,7 +4,7 @@ public class HealthItem extends Collectable{
 	
 	public HealthItem(int x, int y, World world) {
 		super(x, y, world);
-		sprite = new Sprite("Collectable");
+		sprite = new Sprite("collectable");
 	}
 	
 	@Override

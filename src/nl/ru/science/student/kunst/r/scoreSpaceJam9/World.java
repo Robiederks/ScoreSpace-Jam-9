@@ -1,16 +1,12 @@
 package nl.ru.science.student.kunst.r.scoreSpaceJam9;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Class die alles in en rond de muur regelt, zoals de muur, de speler, de monsters, etcetera.
@@ -104,10 +100,10 @@ public class World {
 		//maakt random verschillend items aan
 		while (itemTimer <= 0) {
 			itemTimer += 1000 + random.nextInt(100);
-			itemTimelimit = 50;
-			int randitem = random.nextInt(1);
+			itemTimelimit = 600;
+			int randitem = random.nextInt(5);
 			switch (randitem) {
-			case 3:
+			case 0:
 				addNonPlayer(new TrapItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
 				break;
 			case 1:
@@ -116,14 +112,17 @@ public class World {
 			case 2:
 				addNonPlayer(new FreezeItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
 				break;
-			case 0:
+			case 3:
 				addNonPlayer(new HopItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				break;
+			case 4:
+				addNonPlayer(new HealthItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
 				break;
 			}
 		}
 		if (itemTimelimit <= 0) {
 			for (Entity entity : nonPlayers) {
-				if (entity.getClass().equals(Collectable.class)) {
+				if (entity instanceof Collectable) {
 					nonPlayersToRemove.add(entity);
 					itemTimelimit = -1;
 				}
