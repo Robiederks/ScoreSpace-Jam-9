@@ -49,4 +49,7 @@ public class Monster extends Entity {
 			world.addScore(1);
 		}
 	}
+	
+	public void getNewBounds() {
+	}
 }

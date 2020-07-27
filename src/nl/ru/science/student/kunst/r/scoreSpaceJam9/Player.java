@@ -1,6 +1,8 @@
 package nl.ru.science.student.kunst.r.scoreSpaceJam9;
 
 import java.awt.event.KeyEvent;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 /**
  * De bestuurbare speler in het spel.
@@ -136,6 +138,13 @@ public class Player extends Entity {
 
 	public boolean isKicking() {
 		return kicking;
+	}
+	
+	public Rectangle getKickBounds() {
+		return new Rectangle(pixelX , pixelY + 69, width, 21);
+	}
+	
+	public void getNewBounds() {
 	}
 
 }

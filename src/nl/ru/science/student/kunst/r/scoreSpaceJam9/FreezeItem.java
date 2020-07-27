@@ -9,6 +9,6 @@ public class FreezeItem extends Collectable {
 	
 	@Override
 	public void use(int player_x, int player_y) {
-		world.setFreeze();
+		world.setFreeze(200);
 	}
 }
