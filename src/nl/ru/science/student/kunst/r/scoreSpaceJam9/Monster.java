@@ -56,9 +56,6 @@ public class Monster extends Entity {
 		}
 	}
 	
-	public void getNewBounds() {
-	}
-	
 	public boolean isDead() {
 		return lives <= 0;
 	}

@@ -8,6 +8,6 @@ public class HopItem extends Collectable {
 	}
 	
 	public void use(int player_x, int player_y) {
-		world.setHop(450);
+		world.setHop(150);
 	}
 }

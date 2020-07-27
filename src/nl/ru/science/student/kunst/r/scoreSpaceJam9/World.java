@@ -92,7 +92,7 @@ public class World {
 		freezeTimer--;
 		hopTimer--;
 		while (monsterTimer <= 0) {
-			monsterTimer = 30 + random.nextInt(30 + 300000/(gameTimer+600));
+			monsterTimer = 30000/(gameTimer+1000) + random.nextInt(30 + 300000/(gameTimer+600));
 			nonPlayers.add(new Monster(random.nextInt(numberOfLadders), getWallHeight() + 2, this, 1));
 		}
 		//maakt random verschillend items aan
@@ -177,9 +177,10 @@ public class World {
 				if (entity.getBounds().intersects(other_entity.getBounds())) {
 					if (entity.getClass().equals(Monster.class)) {
 						if (other_entity.getClass().equals(Trap.class)) {
-							other_entity.getNewBounds();
+							Trap trap = (Trap) other_entity;
+							trap.getNewBounds();
 							for (Entity new_entity : nonPlayers) {
-								if (new_entity.getClass().equals(Monster.class) && new_entity.getBounds().intersects(other_entity.getBounds())) {
+								if (new_entity.getClass().equals(Monster.class) && new_entity.getBounds().intersects(trap.getBounds())) {
 									Monster monster = (Monster) new_entity;
 									monster.damage();
 									removeNonPlayer(other_entity);

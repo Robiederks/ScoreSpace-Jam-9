@@ -158,8 +158,4 @@ public class Player extends Entity {
 	public Rectangle getKickBounds() {
 		return new Rectangle(pixelX , pixelY + 69, width, 21);
 	}
-	
-	public void getNewBounds() {
-	}
-
 }
