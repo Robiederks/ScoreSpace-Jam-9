@@ -5,10 +5,10 @@ public class Bullet extends Entity {
 	private int speed;
 	
 	public Bullet(int x, int y, World world) {
-		super(x, y, 24, 24, world);
+		super(x, y, 16, 24, world);
 		pixelX = x + 10;
 		pixelY = y + 22;
-		sprite = new Sprite("Bullet");
+		sprite = new Sprite("bullet_shot");
 		speed = 5;
 	}
 	

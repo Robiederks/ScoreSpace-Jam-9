@@ -1,7 +1,6 @@
 package nl.ru.science.student.kunst.r.scoreSpaceJam9;
 
 import java.awt.event.KeyEvent;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 
 /**
@@ -17,15 +16,17 @@ public class Player extends Entity {
 	private boolean kicking;
 	private int kickTimer;
 	
-	private Sprite[] sprites;
+	private Sprite[][] sprites;
 	private boolean kickEnabled;
 	private boolean spaceDown;
 	
 	public Player(int x, int y, World world) {
 		super(x, y, 44, 69, world);
-		Sprite[] sprites = {new Sprite("player"), new Sprite("player_kick1")};
+		Sprite[][] sprites = {{new Sprite("player_idle")},
+							{new Sprite("player_climb1"), new Sprite("player_climb8")},
+							{new Sprite("player_kick1"), new Sprite("player_kick2")}};
 		this.sprites = sprites;
-		sprite = sprites[0];
+		sprite = sprites[0][0];
 		vx = 0;
 		vy = 0;
 		kicking = false;
@@ -58,11 +59,26 @@ public class Player extends Entity {
 		if (kickTimer <= 0) {
 			kicking = false;
 			height = 69;
-			sprite = sprites[0];
+			
 			
 			if (kickTimer <= -10) {
 				kickEnabled = true;
 			}
+		}
+		else {
+			sprite = sprites[2][pixelY/35 % 2];
+		}
+		
+		if (!kicking) {
+			if (pixelY + 69 > Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight()) {
+				sprite = sprites[1][pixelY/35 % 2];
+			}
+			else {
+				sprite = sprites[0][0];
+			}
+		}
+		else {
+			sprite = sprites[2][pixelY/35 % 2];
 		}
 	}
 	
@@ -89,7 +105,6 @@ public class Player extends Entity {
 				kickTimer = 10;
 				kicking = true;
 				height = 90;
-				sprite = sprites[1];
 				kickEnabled = false;
 				spaceDown = true;
 			}

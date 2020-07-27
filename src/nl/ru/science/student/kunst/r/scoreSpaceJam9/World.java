@@ -139,6 +139,27 @@ public class World {
 				entity.tick();
 			}
 		}
+		else {
+			for (Entity entity : nonPlayers) {
+				if (entity.getClass().equals(Monster.class)) {
+					Monster monster = (Monster) entity;
+					if (monster.isDead()) {
+						monster.tick();
+					}
+				}
+			}
+		}
+		
+		for (Entity entity : nonPlayers) {
+			if (entity.pixelY >= Game.HEIGHT + 200) {
+				nonPlayersToRemove.add(entity);
+			}
+		}
+		
+		nonPlayers.removeAll(nonPlayersToRemove);
+		nonPlayersToRemove.clear();
+		nonPlayers.addAll(nonPlayersToAdd);
+		nonPlayersToAdd.clear();
 		
 		for (Entity entity : nonPlayers) {
 			if (entity.getBounds().intersects(player.getKickBounds())) {
@@ -181,16 +202,6 @@ public class World {
 			}
 		}
 		
-		for (Entity entity : nonPlayers) {
-			if (entity.pixelY >= Game.HEIGHT + 5) {
-				nonPlayersToRemove.add(entity);
-			}
-		}
-		
-		nonPlayers.removeAll(nonPlayersToRemove);
-		nonPlayersToRemove.clear();
-		nonPlayers.addAll(nonPlayersToAdd);
-		nonPlayersToAdd.clear();
 	}
 	
 	public void render(Graphics g) {
@@ -198,7 +209,6 @@ public class World {
 		
 		for (int i = 0; i < numberOfLadders; i++) {
 			ladder.draw(g,(Game.WIDTH - LADDER_WIDTH * numberOfLadders)/2 + i * LADDER_WIDTH + 20, Game.HEIGHT - STEP_HEIGHT * getWallHeight() - 10);
-			
 		}
 		
 		player.render(g);

@@ -10,11 +10,15 @@ public class Monster extends Entity {
 	private int lives;
 	private int fall_direction;
 	
+	private Sprite[] sprites;
+	
 	public Monster(int x, int y, World world, int startLives) {
 		super(x, y, 44, 69, world);
 		this.fall_direction = rand.nextInt(2);
 		speed = 1;
-		sprite = new Sprite("monster");
+		Sprite[] sprites = {new Sprite("monster_climb1"), new Sprite("monster_climb2")};
+		this.sprites = sprites;
+		sprite = sprites[0];
 		lives = startLives;
 		t = 0;
 	}
@@ -41,6 +45,8 @@ public class Monster extends Entity {
 		if (pixelY > Game.HEIGHT + 500) {
 			world.removeNonPlayer(this);
 		}
+		
+		sprite = sprites[pixelY/35 % 2];
 	}
 	
 	public void damage() {
@@ -51,5 +57,9 @@ public class Monster extends Entity {
 	}
 	
 	public void getNewBounds() {
+	}
+	
+	public boolean isDead() {
+		return lives <= 0;
 	}
 }

@@ -1,7 +1,5 @@
 package nl.ru.science.student.kunst.r.scoreSpaceJam9;
 
-import java.awt.Rectangle;
-
 public class Trap extends Entity {
 	
 	public Trap(int x, int y, World world) {
@@ -12,10 +10,11 @@ public class Trap extends Entity {
 	}
 	
 	public void getNewBounds() {
-		pixelY -= 100;
-		pixelX -= 100;
+		pixelY -= 88;
+		pixelX -= 88;
 		height = 200;
 		width = 200;
+		sprite = new Sprite("explosion");
 	}
 	
 	public void tick() {

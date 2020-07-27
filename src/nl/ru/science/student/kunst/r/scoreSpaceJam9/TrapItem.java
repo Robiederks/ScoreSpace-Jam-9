@@ -4,7 +4,7 @@ public class TrapItem extends Collectable {
 	
 	public TrapItem(int x, int y, World world) {
 		super(x, y, world);
-		sprite = new Sprite("Trap");
+		sprite = new Sprite("Trap_lit");
 	}
 	
 	@Override
