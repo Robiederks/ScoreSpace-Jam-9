@@ -31,7 +31,6 @@ public class World {
 	
 	private Inventory inventory;
 	
-	private boolean Hopperdiehop;
 	private int gameTimer;
 	private int monsterTimer;
 	private int itemTimer;
@@ -80,7 +79,6 @@ public class World {
 		itemTimelimit = -1;
 		freezeTimer = 0;
 		hopTimer = 0;
-		Hopperdiehop = true;
 		
 		// Bestand afsluiten
 		in.close();
@@ -123,13 +121,10 @@ public class World {
 		if (itemTimelimit <= 0) {
 			for (Entity entity : nonPlayers) {
 				if (entity instanceof Collectable) {
-					nonPlayersToRemove.add(entity);
+					removeNonPlayer(entity);
 					itemTimelimit = -1;
 				}
 			}
-		}
-		if (hopTimer <= 0) {
-			Hopperdiehop = false;
 		}
 		
 		player.tick();
@@ -166,7 +161,6 @@ public class World {
 								if (new_entity.getClass().equals(Monster.class) && new_entity.getBounds().intersects(other_entity.getBounds())) {
 									Monster monster = (Monster) new_entity;
 									monster.damage();
-									removeNonPlayer(new_entity);
 									removeNonPlayer(other_entity);
 								}
 							}
@@ -183,7 +177,7 @@ public class World {
 		
 		for (Entity entity : nonPlayers) {
 			if (entity.pixelY >= Game.HEIGHT + 5) {
-				nonPlayersToRemove.add(entity);
+				removeNonPlayer(entity);
 			}
 		}
 		
@@ -198,7 +192,6 @@ public class World {
 		
 		for (int i = 0; i < numberOfLadders; i++) {
 			ladder.draw(g,(Game.WIDTH - LADDER_WIDTH * numberOfLadders)/2 + i * LADDER_WIDTH + 20, Game.HEIGHT - STEP_HEIGHT * getWallHeight() - 10);
-			
 		}
 		
 		player.render(g);
@@ -236,8 +229,8 @@ public class World {
 		return numberOfLadders;
 	}
 	
-	public boolean getHopperdiehop() {
-		return Hopperdiehop;
+	public int gethopTimer() {
+		return hopTimer;
 	}
 	
 	public void addScore(int dScore) {
@@ -261,7 +254,6 @@ public class World {
 	}
 	
 	public void setHop(int x) {
-		Hopperdiehop = true;
 		hopTimer = x;
 	}
 }
