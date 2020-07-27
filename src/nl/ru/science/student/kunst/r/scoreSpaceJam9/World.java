@@ -85,10 +85,12 @@ public class World {
 	}
 	
 	public void tick() {
-		monsterTimer--;
-		itemTimer--;
-		itemTimelimit--;
-		gameTimer++;
+		if (freezeTimer > 0) {
+			monsterTimer--;
+			itemTimer--;
+			itemTimelimit--;
+			gameTimer++;
+		}
 		freezeTimer--;
 		hopTimer--;
 		while (monsterTimer <= 0) {
