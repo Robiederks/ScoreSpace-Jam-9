@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Scanner;
@@ -27,8 +28,14 @@ public class Leaderboard {
 		try {
 			Scanner reader = new Scanner(file);
 			while (reader.hasNext()) {
-				scores.add(reader.nextInt());
-				names.add(reader.nextLine().trim());
+				try {
+					int score = reader.nextInt();
+					String name = reader.nextLine().trim();
+					insertScore(score, name);
+				}
+				catch (InputMismatchException e) {
+					reader.nextLine();
+				}
 			}
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -63,6 +70,21 @@ public class Leaderboard {
 	}
 	
 	public void addScore(int score, String name) {
+		insertScore(score, name);
+		
+		try {
+			FileWriter writer = new FileWriter(file);
+			for (int i = 0; i < Math.min(scores.size(), 5); i++) {
+				writer.write(scores.get(i) + " " + names.get(i) + "\n");
+			}
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void insertScore(int score, String name) {
 		ListIterator<Integer> scoreIterator = scores.listIterator();
 		ListIterator<String> nameIterator = names.listIterator();
 		
@@ -82,17 +104,6 @@ public class Leaderboard {
 		if (!added) {
 			names.add(name);
 			scores.add(score);
-		}
-		
-		try {
-			FileWriter writer = new FileWriter(file);
-			for (int i = 0; i < Math.min(scores.size(), 5); i++) {
-				writer.write(scores.get(i) + " " + names.get(i) + "\n");
-			}
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 

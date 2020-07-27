@@ -148,7 +148,12 @@ public class World {
 				}
 				if (entity instanceof Collectable) {
 					Collectable item = (Collectable) entity;
-					inventory.addItem(item);
+					if (item instanceof HealthItem) {
+						handler.addHealth(1);
+					}
+					else {
+						inventory.addItem(item);
+					}
 					removeNonPlayer(item);
 				}
 			}
@@ -210,6 +215,7 @@ public class World {
 		}
 		else {
 			player.keyPressed(key);
+			inventory.keyPressed(key);
 		}
 	}
 	
@@ -218,7 +224,7 @@ public class World {
 	}
 	
 	public void keyTyped(char key) {
-		inventory.keyTyped(key);
+		
 	}
 
 	public int getWallHeight() {

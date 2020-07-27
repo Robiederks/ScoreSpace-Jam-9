@@ -3,6 +3,7 @@ package nl.ru.science.student.kunst.r.scoreSpaceJam9;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Inventory {
@@ -25,6 +26,9 @@ public class Inventory {
 		else {
 			amounts.add(1);
 			items.add(item);
+			if (selected == -1) {
+				selected = 0;
+			}
 		}
 	}
 	
@@ -36,7 +40,9 @@ public class Inventory {
 				if (amounts.get(selected) == 0) {
 					amounts.remove(selected);
 					items.remove(selected);
-					selected = -1;
+					if (selected >= items.size()) {
+						selected = items.size() - 1;
+					}
 				}
 			}
 		}
@@ -64,14 +70,14 @@ public class Inventory {
 		
 	}
 
-	public void keyTyped(char key) {
+	public void keyPressed(int key) {
 		if (!items.isEmpty()) {
 			switch (key) {
-			case 'q':
+			case KeyEvent.VK_Q:
 				selected--;
-				selected %= items.size();
+				selected = (selected + items.size()) % items.size();
 				break;
-			case 'e':
+			case KeyEvent.VK_E:
 				selected++;
 				selected %= items.size();
 				break;

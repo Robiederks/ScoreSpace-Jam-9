@@ -1,10 +1,5 @@
+172 Robert
+158 Robert
+152 Robert
 145 Robert
-102 Robert
-92 Robert
-86 Robert
-<<<<<<< HEAD
-49 Robert
-44 keesh
-=======
-76 Robert
->>>>>>> 06125eefda594fb3a039319a3cc4f31a249a6fdd
+105 Robert
