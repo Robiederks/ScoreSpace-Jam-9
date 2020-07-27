@@ -67,5 +67,7 @@ public abstract class Collectable extends Entity {
 	public boolean equals(Object o) {
 		return this.getClass()==o.getClass();
 	}
-
+	
+	public void getNewBounds() {
+	}
 }

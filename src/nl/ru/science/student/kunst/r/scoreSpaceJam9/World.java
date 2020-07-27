@@ -94,29 +94,29 @@ public class World {
 		freezeTimer--;
 		hopTimer--;
 		while (monsterTimer <= 0) {
-			monsterTimer = random.nextInt(60 + 300000/(gameTimer+600));
+			monsterTimer = 30 + random.nextInt(30 + 300000/(gameTimer+600));
 			nonPlayers.add(new Monster(random.nextInt(numberOfLadders), getWallHeight() + 2, this, 1));
 		}
 		//maakt random verschillend items aan
 		while (itemTimer <= 0) {
-			itemTimer += 1000 + random.nextInt(100);
+			itemTimer += 900 + random.nextInt(100);
 			itemTimelimit = 600;
 			int randitem = random.nextInt(5);
 			switch (randitem) {
 			case 0:
-				addNonPlayer(new TrapItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				addNonPlayer(new TrapItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT-5), this));
 				break;
 			case 1:
-				addNonPlayer(new BulletItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				addNonPlayer(new BulletItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT-5), this));
 				break;
 			case 2:
-				addNonPlayer(new FreezeItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				addNonPlayer(new FreezeItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT-5), this));
 				break;
 			case 3:
-				addNonPlayer(new HopItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				addNonPlayer(new HopItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT-5), this));
 				break;
 			case 4:
-				addNonPlayer(new HealthItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT)-5, this));
+				addNonPlayer(new HealthItem(random.nextInt(numberOfLadders), 3 + random.nextInt(Game.HEIGHT/World.STEP_HEIGHT-5), this));
 				break;
 			}
 		}
@@ -141,7 +141,7 @@ public class World {
 		}
 		
 		for (Entity entity : nonPlayers) {
-			if (entity.getBounds().intersects(player.getBounds())) {
+			if (entity.getBounds().intersects(player.getKickBounds())) {
 				if (player.isKicking() && entity.getClass().equals(Monster.class)) {
 					Monster monster = (Monster) entity;
 					monster.damage();
@@ -156,9 +156,16 @@ public class World {
 				if (entity.getBounds().intersects(other_entity.getBounds())) {
 					if (entity.getClass().equals(Monster.class)) {
 						if (other_entity.getClass().equals(Trap.class)) {
-							Monster monster = (Monster) entity;
-							monster.damage();
-							nonPlayersToRemove.add(other_entity);
+							other_entity.getNewBounds();
+							for (Entity new_entity : nonPlayers) {
+								if (new_entity.getClass().equals(Monster.class) && new_entity.getBounds().intersects(other_entity.getBounds())) {
+									Monster monster = (Monster) new_entity;
+									monster.damage();
+									removeNonPlayer(new_entity);
+									removeNonPlayer(other_entity);
+								}
+							}
+							
 						}
 						if (other_entity.getClass().equals(Bullet.class)) {
 							Monster monster = (Monster) entity;
@@ -249,13 +256,12 @@ public class World {
 		nonPlayersToRemove.add(entity);
 	}
 	
-	public void setFreeze() {
-		freezeTimer = 200;
+	public void setFreeze(int x) {
+		freezeTimer = x;
 	}
 	
-	public void setHop() {
+	public void setHop(int x) {
 		Hopperdiehop = true;
-		hopTimer = 200;
+		hopTimer = x;
 	}
-
 }

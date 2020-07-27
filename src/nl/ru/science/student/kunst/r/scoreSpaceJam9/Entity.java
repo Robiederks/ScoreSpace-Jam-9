@@ -36,6 +36,12 @@ public abstract class Entity {
 		return new Rectangle(pixelX, pixelY, width, height);
 	}
 	
+	public Rectangle what() {
+		return new Rectangle(1, 1, 1, 1);
+	}
+	
+	public abstract void getNewBounds();
+	
 	public abstract void tick();
 	
 	public void render(Graphics g) {

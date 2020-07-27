@@ -9,10 +9,13 @@ public class Bullet extends Entity {
 		pixelX = x + 10;
 		pixelY = y + 22;
 		sprite = new Sprite("Bullet");
-		speed = 2;
+		speed = 5;
 	}
 	
 	public void tick() {
 		pixelY += speed;
-	}	
+	}
+	
+	public void getNewBounds() {
+	}
 }
