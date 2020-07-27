@@ -36,7 +36,7 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
-		if (pixelY + 69 <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight() || (world.getHopperdiehop() == true && (0.2*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 <= pixelX && (world.getNumberOfLadders()-1)*World.LADDER_WIDTH + 0.8*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 >= pixelX))) {
+		if (pixelY + 69 <= Game.HEIGHT - World.STEP_HEIGHT * world.getWallHeight() || (world.gethopTimer() >= 0 && (0.2*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 <= pixelX && (world.getNumberOfLadders()-1)*World.LADDER_WIDTH + 0.8*(World.LADDER_WIDTH - 44) + (Game.WIDTH - World.LADDER_WIDTH*world.getNumberOfLadders())/2 >= pixelX))) {
 			if (pixelX + vx >= 0 && pixelX + width + vx <= Game.WIDTH) {
 				pixelX += vx;
 			}

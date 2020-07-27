@@ -74,7 +74,9 @@ public class Menu extends MouseAdapter {
 			
 			String text = "Kill monsters by kicking them off the ladders. "
 					+ "You recieve one point for each monster you kick. "
-					+ "The are several items you can collect to use.";
+					+ "There are several items you can collect to use."
+					+ "Everytime a monster clmibs to the top you lose a heart."
+					+ "When you have no more hearts left, you it's Game Over!";
 			String[] words = text.split(" ");
 			
 			String nextLine = words[0];
@@ -90,15 +92,55 @@ public class Menu extends MouseAdapter {
 					nextLine = appended;
 				}
 			}
-			
 			g.drawString(nextLine, 110, 60 + line * fm2.getHeight() + fm2.getAscent());
+			
+			Sprite spritetrap = new Sprite("Trap");
+			spritetrap.draw(g, 110, 70 + line * fm2.getHeight() + fm2.getAscent());
+			line++;
+			
+			String text1 = "Trap: "
+					+ "Will be placed at the players position. "
+					+ "If a monster touches it, it explodes.";
+			String[] words1 = text1.split(" ");
+			
+			Sprite spritebullet = new Sprite("Bullet");
+			spritebullet.draw(g, 110, 60 + 10 + line * fm2.getHeight() + fm2.getAscent());
+			line++;
+			
+			String text2 = "Bullet: "
+					+ "Will be shooted downwards killing each monster it crosses. ";
+			String[] words2 = text2.split(" ");
+			
+			line -= 4;
+			Sprite spritefreeze = new Sprite("freeze");
+			spritefreeze.draw(g, 440, 60 + 15 + line * fm2.getHeight() + fm2.getAscent());
+			line++;
+			
+			String text3 = "Freeze: "
+					+ "Stops the monsters from climbing.";
+			String[] words3 = text3.split(" ");
+			
+			Sprite spritehop = new Sprite("hop");
+			spritehop.draw(g, 440, 60 + 35 + line * fm2.getHeight() + fm2.getAscent());
+			line++;
+			
+			String text4 = "Hop: "
+					+ "Gives you the ability to hop from ladder to ladder. ";
+			String[] words4 = text4.split(" ");
+			
+			Sprite spritehealth = new Sprite("heart_item");
+			spritehealth.draw(g, 440, 60 + 55 + line * fm2.getHeight() + fm2.getAscent());
+			line++;
+			
+			String text5 = "Heart: "
+					+ "Gives you an extra heart.";
+			String[] words5 = text5.split(" ");
 			
 			g.drawString("Controls:", 440, 60 + 0 * fm2.getHeight() + fm2.getAscent());
 			g.drawString("WASD/arrow keys to move", 440, 60 + 1 * fm2.getHeight() + fm2.getAscent());
 			g.drawString("Space to kick monsters", 440, 60 + 2 * fm2.getHeight() + fm2.getAscent());
 			g.drawString("Q and E to select items", 440, 60 + 3 * fm2.getHeight() + fm2.getAscent());
 			g.drawString("X to use an item", 440, 60 + 4 * fm2.getHeight() + fm2.getAscent());
-			
 			
 			break;
 		}
@@ -188,6 +230,10 @@ public class Menu extends MouseAdapter {
 		state = State.GAME_OVER;
 		this.score = score;
 		leaderboard.addScore(score, System.getProperty("user.name"));
+	}
+	
+	public void DrawText(String words, int line) {
+		
 	}
 
 }
