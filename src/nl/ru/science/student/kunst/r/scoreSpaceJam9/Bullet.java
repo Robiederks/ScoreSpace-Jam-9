@@ -15,7 +15,4 @@ public class Bullet extends Entity {
 	public void tick() {
 		pixelY += speed;
 	}
-	
-	public void getNewBounds() {
-	}
 }
