@@ -15,6 +15,8 @@ public class Menu extends MouseAdapter {
 	
 	private Sprite button;
 	private Sprite help;
+	private Sprite left;
+	private Sprite right;
 	
 	private Leaderboard leaderboard;
 	
@@ -23,7 +25,7 @@ public class Menu extends MouseAdapter {
 	private int score;
 	
 	private enum State {
-		MAIN, LEADERBOARD, HELP, GAME_OVER
+		MAIN, LEADERBOARD, HELP, HELP2, GAME_OVER
 	}
 	private State state;
 	
@@ -33,6 +35,8 @@ public class Menu extends MouseAdapter {
 		button = new Sprite("menu_button");
 		help = new Sprite("help_menu");
 		leaderboard = new Leaderboard();
+		left = new Sprite("help_left");
+		right = new Sprite("help_right");
 	}
 	
 	public void render(Graphics g) {
@@ -68,14 +72,16 @@ public class Menu extends MouseAdapter {
 			
 			help.draw(g, 100, 50);
 			
+			right.draw(g, 575, 400);
+			
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("arial", Font.PLAIN, 20));
 			FontMetrics fm2 = g.getFontMetrics();
 			
 			String text = "Kill monsters by kicking them off the ladders. "
 					+ "You recieve one point for each monster you kick. "
-					+ "There are several items you can collect to use."
-					+ "Everytime a monster clmibs to the top you lose a heart."
+					+ "There are several items you can collect to use. "
+					+ "Everytime a monster clmibs to the top you lose a heart. "
 					+ "When you have no more hearts left, you it's Game Over!";
 			String[] words = text.split(" ");
 			
@@ -94,53 +100,145 @@ public class Menu extends MouseAdapter {
 			}
 			g.drawString(nextLine, 110, 60 + line * fm2.getHeight() + fm2.getAscent());
 			
-			Sprite spritetrap = new Sprite("Trap");
-			spritetrap.draw(g, 110, 70 + line * fm2.getHeight() + fm2.getAscent());
-			line++;
 			
-			String text1 = "Trap: "
-					+ "Will be placed at the players position. "
-					+ "If a monster touches it, it explodes.";
-			String[] words1 = text1.split(" ");
-			
-			Sprite spritebullet = new Sprite("Bullet");
-			spritebullet.draw(g, 110, 60 + 10 + line * fm2.getHeight() + fm2.getAscent());
-			line++;
-			
-			String text2 = "Bullet: "
-					+ "Will be shooted downwards killing each monster it crosses. ";
-			String[] words2 = text2.split(" ");
-			
-			line -= 4;
-			Sprite spritefreeze = new Sprite("freeze");
-			spritefreeze.draw(g, 440, 60 + 15 + line * fm2.getHeight() + fm2.getAscent());
-			line++;
-			
-			String text3 = "Freeze: "
-					+ "Stops the monsters from climbing.";
-			String[] words3 = text3.split(" ");
-			
-			Sprite spritehop = new Sprite("hop");
-			spritehop.draw(g, 440, 60 + 35 + line * fm2.getHeight() + fm2.getAscent());
-			line++;
-			
-			String text4 = "Hop: "
-					+ "Gives you the ability to hop from ladder to ladder. ";
-			String[] words4 = text4.split(" ");
-			
-			Sprite spritehealth = new Sprite("heart_item");
-			spritehealth.draw(g, 440, 60 + 55 + line * fm2.getHeight() + fm2.getAscent());
-			line++;
-			
-			String text5 = "Heart: "
-					+ "Gives you an extra heart.";
-			String[] words5 = text5.split(" ");
 			
 			g.drawString("Controls:", 440, 60 + 0 * fm2.getHeight() + fm2.getAscent());
 			g.drawString("WASD/arrow keys to move", 440, 60 + 1 * fm2.getHeight() + fm2.getAscent());
 			g.drawString("Space to kick monsters", 440, 60 + 2 * fm2.getHeight() + fm2.getAscent());
 			g.drawString("Q and E to select items", 440, 60 + 3 * fm2.getHeight() + fm2.getAscent());
 			g.drawString("X to use an item", 440, 60 + 4 * fm2.getHeight() + fm2.getAscent());
+			
+			break;
+			
+		case HELP2:
+			button.draw(g, 275, 400);
+			g.drawString("Back", 400 - fm.stringWidth("Back")/2, 475 - fm.getHeight()/2 + fm.getAscent());
+			
+			help.draw(g, 100, 50);
+			
+			left.draw(g, 145, 400);
+			
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("arial", Font.PLAIN, 20));
+			FontMetrics fm3 = g.getFontMetrics();
+			
+			line = 0;
+			Sprite spritetrap = new Sprite("Trap");
+			spritetrap.draw(g, 110, 70 + line * fm3.getHeight() + fm3.getAscent());
+			
+			
+			String text1 = "Trap: "
+					+ "Will be placed at the players position. "
+					+ "If a monster touches it, it explodes.";
+			words = text1.split(" ");
+			
+			nextLine = words[0];
+			for (int i = 1; i < words.length; i++) {
+				String appended = nextLine + " " + words[i];
+				if (fm3.stringWidth(appended) > 216) {
+					g.drawString(nextLine, 144, 60 + line * fm3.getHeight() + fm3.getAscent());
+					line++;
+					nextLine = words[i];
+				}
+				else {
+					nextLine = appended;
+				}
+			}
+			g.drawString(nextLine, 144, 60 + line * fm3.getHeight() + fm3.getAscent());
+			line+=2;
+			
+			Sprite spritebullet = new Sprite("Bullet");
+			spritebullet.draw(g, 110, 60 + 10 + line * fm3.getHeight() + fm3.getAscent());
+			
+			
+			String text2 = "Bullet: "
+					+ "Will be shooted downwards killing each monster it crosses. ";
+			words = text2.split(" ");
+			
+			nextLine = words[0];
+			for (int i = 1; i < words.length; i++) {
+				String appended = nextLine + " " + words[i];
+				if (fm3.stringWidth(appended) > 216) {
+					g.drawString(nextLine, 144, 60 + line * fm3.getHeight() + fm3.getAscent());
+					line++;
+					nextLine = words[i];
+				}
+				else {
+					nextLine = appended;
+				}
+			}
+			g.drawString(nextLine, 144, 60 + line * fm3.getHeight() + fm3.getAscent());
+			line+=2;
+			
+			Sprite spritefreeze = new Sprite("freeze");
+			spritefreeze.draw(g, 110, 60 + line * fm3.getHeight() + fm3.getAscent());
+			
+			
+			String text3 = "Freeze: "
+					+ "Stops the monsters from climbing.";
+			words = text3.split(" ");
+			
+			nextLine = words[0];
+			for (int i = 1; i < words.length; i++) {
+				String appended = nextLine + " " + words[i];
+				if (fm3.stringWidth(appended) > 216) {
+					g.drawString(nextLine, 144, 60 + line * fm3.getHeight() + fm3.getAscent());
+					line++;
+					nextLine = words[i];
+				}
+				else {
+					nextLine = appended;
+				}
+			}
+			g.drawString(nextLine, 144, 60 + line * fm3.getHeight() + fm3.getAscent());
+			line+=2;
+			
+			line = 0;
+			
+			Sprite spritehop = new Sprite("hop");
+			spritehop.draw(g, 440, 60 + line * fm3.getHeight() + fm3.getAscent());
+			
+			String text4 = "Hop: "
+					+ "Gives you the ability to hop from ladder to ladder. ";
+			words = text4.split(" ");
+			
+			nextLine = words[0];
+			for (int i = 1; i < words.length; i++) {
+				String appended = nextLine + " " + words[i];
+				if (fm3.stringWidth(appended) > 216) {
+					g.drawString(nextLine, 474, 60 + line * fm3.getHeight() + fm3.getAscent());
+					line++;
+					nextLine = words[i];
+				}
+				else {
+					nextLine = appended;
+				}
+			}
+			g.drawString(nextLine, 474, 60 + line * fm3.getHeight() + fm3.getAscent());
+			line+=2;
+			
+			Sprite spritehealth = new Sprite("heart_item");
+			spritehealth.draw(g, 440, 60 + line * fm3.getHeight() + fm3.getAscent());
+			
+			
+			String text5 = "Heart: "
+					+ "Gives you an extra heart.";
+			words = text5.split(" ");
+			
+			nextLine = words[0];
+			for (int i = 1; i < words.length; i++) {
+				String appended = nextLine + " " + words[i];
+				if (fm3.stringWidth(appended) > 216) {
+					g.drawString(nextLine, 474, 60 + line * fm3.getHeight() + fm3.getAscent());
+					line++;
+					nextLine = words[i];
+				}
+				else {
+					nextLine = appended;
+				}
+			}
+			g.drawString(nextLine, 474, 60 + line * fm3.getHeight() + fm3.getAscent());
+			
 			
 			break;
 		}
@@ -161,6 +259,12 @@ public class Menu extends MouseAdapter {
 			break;
 		case 5:
 			g.fillRect(279, 404, 242, 142);
+			break;
+		case 6:
+			g.fillRect(149, 404, 72, 72);
+			break;
+		case 7:
+			g.fillRect(579, 404, 72, 72);
 			break;
 		}
 	}
@@ -187,9 +291,26 @@ public class Menu extends MouseAdapter {
 			
 		case GAME_OVER:
 		case LEADERBOARD:
+			if ((new Rectangle(275, 400, 250, 150)).contains(clickLocation)) { // Back
+				clicked = 5;
+			}
+			break;
+			
 		case HELP:
 			if ((new Rectangle(275, 400, 250, 150)).contains(clickLocation)) { // Back
 				clicked = 5;
+			}
+			else if ((new Rectangle(575, 400, 80, 80)).contains(clickLocation)) { // Exit
+				clicked = 7;
+			}
+			break;
+			
+		case HELP2:
+			if ((new Rectangle(275, 400, 250, 150)).contains(clickLocation)) { // Back
+				clicked = 5;
+			}
+			else if ((new Rectangle(145, 400, 80, 80)).contains(clickLocation)) { // Exit
+				clicked = 6;
 			}
 			break;
 		}
@@ -217,12 +338,29 @@ public class Menu extends MouseAdapter {
 
 		case GAME_OVER:
 		case LEADERBOARD:
-		case HELP:
 			if (clicked == 5 && (new Rectangle(275, 400, 250, 150)).contains(clickLocation)) { // Back
 				state = State.MAIN;
 			}
 			break;
+		case HELP:
+			if (clicked == 5 && (new Rectangle(275, 400, 250, 150)).contains(clickLocation)) { // Back
+				state = State.MAIN;
+			}
+			else if (clicked == 7 && (new Rectangle(575, 400, 80, 80)).contains(clickLocation)) { // Exit
+				state = State.HELP2;
+			}
+			break;
+			
+		case HELP2:
+			if (clicked == 5 && (new Rectangle(275, 400, 250, 150)).contains(clickLocation)) { // Back
+				state = State.MAIN;
+			}
+			else if (clicked == 6 && (new Rectangle(145, 400, 80, 80)).contains(clickLocation)) { // Exit
+				state = State.HELP;
+			}
+			break;
 		}
+		
 		clicked = 0;
 	}
 	
