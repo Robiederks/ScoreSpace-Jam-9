@@ -85,7 +85,7 @@ public class World {
 	}
 	
 	public void tick() {
-		if (freezeTimer > 0) {
+		if (freezeTimer <= 0) {
 			monsterTimer--;
 			itemTimer--;
 			itemTimelimit--;

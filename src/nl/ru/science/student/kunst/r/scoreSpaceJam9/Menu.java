@@ -82,7 +82,7 @@ public class Menu extends MouseAdapter {
 					+ "You recieve one point for each monster you kick. "
 					+ "There are several items you can collect to use. "
 					+ "Everytime a monster clmibs to the top you lose a heart. "
-					+ "When you have no more hearts left, you it's Game Over!";
+					+ "When you have no more hearts left, it's Game Over!";
 			String[] words = text.split(" ");
 			
 			String nextLine = words[0];
